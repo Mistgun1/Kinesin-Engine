@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/rodya/projects/engine/src/gl.c" "CMakeFiles/ENGINE.dir/src/gl.c.o" "gcc" "CMakeFiles/ENGINE.dir/src/gl.c.o.d"
   "/home/rodya/projects/engine/src/main.c" "CMakeFiles/ENGINE.dir/src/main.c.o" "gcc" "CMakeFiles/ENGINE.dir/src/main.c.o.d"
+  "/home/rodya/projects/engine/src/se_gl.c" "CMakeFiles/ENGINE.dir/src/se_gl.c.o" "gcc" "CMakeFiles/ENGINE.dir/src/se_gl.c.o.d"
   "" "ENGINE" "gcc" "CMakeFiles/ENGINE.dir/link.d"
   )
 

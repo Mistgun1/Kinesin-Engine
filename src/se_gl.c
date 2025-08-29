@@ -1,6 +1,6 @@
 // Syphax-Engine - Ougi Washi
 
-#include "gl.h"
+#include "se_gl.h"
 #include <stdio.h>
 #include <stdlib.h>
 

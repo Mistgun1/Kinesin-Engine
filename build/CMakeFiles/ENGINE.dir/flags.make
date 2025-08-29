@@ -4,7 +4,7 @@
 # compile C with /usr/sbin/cc
 C_DEFINES = 
 
-C_INCLUDES = 
+C_INCLUDES = -I/home/rodya/projects/engine/lib/glfw/include
 
 C_FLAGS = 
 
