@@ -1,1 +1,1 @@
-/usr/sbin/cc -Wl,--dependency-file=CMakeFiles/ENGINE.dir/link.d CMakeFiles/ENGINE.dir/src/gl.c.o CMakeFiles/ENGINE.dir/src/main.c.o -o ENGINE
+/usr/sbin/cc -Wl,--dependency-file=CMakeFiles/ENGINE.dir/link.d CMakeFiles/ENGINE.dir/src/main.c.o CMakeFiles/ENGINE.dir/src/se_gl.c.o -o ENGINE  lib/glfw/src/libglfw3.a /usr/lib/librt.a -lm -ldl /usr/lib/libGLX.so /usr/lib/libOpenGL.so

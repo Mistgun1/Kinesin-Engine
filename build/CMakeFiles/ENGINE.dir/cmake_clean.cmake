@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ENGINE.dir/link.d"
-  "CMakeFiles/ENGINE.dir/src/gl.c.o"
-  "CMakeFiles/ENGINE.dir/src/gl.c.o.d"
   "CMakeFiles/ENGINE.dir/src/main.c.o"
   "CMakeFiles/ENGINE.dir/src/main.c.o.d"
+  "CMakeFiles/ENGINE.dir/src/se_gl.c.o"
+  "CMakeFiles/ENGINE.dir/src/se_gl.c.o.d"
   "ENGINE"
   "ENGINE.pdb"
 )

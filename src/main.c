@@ -1,4 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "se_gl.h"
 #include <GLFW/glfw3.h>
-#include "gl.h"
+
+int main(void) {
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  
+    return 0;
+}
+

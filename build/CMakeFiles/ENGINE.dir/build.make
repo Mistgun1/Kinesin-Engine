@@ -72,24 +72,10 @@ include CMakeFiles/ENGINE.dir/flags.make
 CMakeFiles/ENGINE.dir/codegen:
 .PHONY : CMakeFiles/ENGINE.dir/codegen
 
-CMakeFiles/ENGINE.dir/src/gl.c.o: CMakeFiles/ENGINE.dir/flags.make
-CMakeFiles/ENGINE.dir/src/gl.c.o: /home/rodya/projects/engine/src/gl.c
-CMakeFiles/ENGINE.dir/src/gl.c.o: CMakeFiles/ENGINE.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rodya/projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/ENGINE.dir/src/gl.c.o"
-	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ENGINE.dir/src/gl.c.o -MF CMakeFiles/ENGINE.dir/src/gl.c.o.d -o CMakeFiles/ENGINE.dir/src/gl.c.o -c /home/rodya/projects/engine/src/gl.c
-
-CMakeFiles/ENGINE.dir/src/gl.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ENGINE.dir/src/gl.c.i"
-	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rodya/projects/engine/src/gl.c > CMakeFiles/ENGINE.dir/src/gl.c.i
-
-CMakeFiles/ENGINE.dir/src/gl.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ENGINE.dir/src/gl.c.s"
-	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rodya/projects/engine/src/gl.c -o CMakeFiles/ENGINE.dir/src/gl.c.s
-
 CMakeFiles/ENGINE.dir/src/main.c.o: CMakeFiles/ENGINE.dir/flags.make
 CMakeFiles/ENGINE.dir/src/main.c.o: /home/rodya/projects/engine/src/main.c
 CMakeFiles/ENGINE.dir/src/main.c.o: CMakeFiles/ENGINE.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rodya/projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/ENGINE.dir/src/main.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rodya/projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/ENGINE.dir/src/main.c.o"
 	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ENGINE.dir/src/main.c.o -MF CMakeFiles/ENGINE.dir/src/main.c.o.d -o CMakeFiles/ENGINE.dir/src/main.c.o -c /home/rodya/projects/engine/src/main.c
 
 CMakeFiles/ENGINE.dir/src/main.c.i: cmake_force
@@ -100,18 +86,37 @@ CMakeFiles/ENGINE.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ENGINE.dir/src/main.c.s"
 	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rodya/projects/engine/src/main.c -o CMakeFiles/ENGINE.dir/src/main.c.s
 
+CMakeFiles/ENGINE.dir/src/se_gl.c.o: CMakeFiles/ENGINE.dir/flags.make
+CMakeFiles/ENGINE.dir/src/se_gl.c.o: /home/rodya/projects/engine/src/se_gl.c
+CMakeFiles/ENGINE.dir/src/se_gl.c.o: CMakeFiles/ENGINE.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/rodya/projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/ENGINE.dir/src/se_gl.c.o"
+	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/ENGINE.dir/src/se_gl.c.o -MF CMakeFiles/ENGINE.dir/src/se_gl.c.o.d -o CMakeFiles/ENGINE.dir/src/se_gl.c.o -c /home/rodya/projects/engine/src/se_gl.c
+
+CMakeFiles/ENGINE.dir/src/se_gl.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/ENGINE.dir/src/se_gl.c.i"
+	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rodya/projects/engine/src/se_gl.c > CMakeFiles/ENGINE.dir/src/se_gl.c.i
+
+CMakeFiles/ENGINE.dir/src/se_gl.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/ENGINE.dir/src/se_gl.c.s"
+	/usr/sbin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rodya/projects/engine/src/se_gl.c -o CMakeFiles/ENGINE.dir/src/se_gl.c.s
+
 # Object files for target ENGINE
 ENGINE_OBJECTS = \
-"CMakeFiles/ENGINE.dir/src/gl.c.o" \
-"CMakeFiles/ENGINE.dir/src/main.c.o"
+"CMakeFiles/ENGINE.dir/src/main.c.o" \
+"CMakeFiles/ENGINE.dir/src/se_gl.c.o"
 
 # External object files for target ENGINE
 ENGINE_EXTERNAL_OBJECTS =
 
-ENGINE: CMakeFiles/ENGINE.dir/src/gl.c.o
 ENGINE: CMakeFiles/ENGINE.dir/src/main.c.o
+ENGINE: CMakeFiles/ENGINE.dir/src/se_gl.c.o
 ENGINE: CMakeFiles/ENGINE.dir/build.make
 ENGINE: CMakeFiles/ENGINE.dir/compiler_depend.ts
+ENGINE: lib/glfw/src/libglfw3.a
+ENGINE: /usr/lib/librt.a
+ENGINE: /usr/lib/libm.so
+ENGINE: /usr/lib/libGLX.so
+ENGINE: /usr/lib/libOpenGL.so
 ENGINE: CMakeFiles/ENGINE.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/rodya/projects/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable ENGINE"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ENGINE.dir/link.txt --verbose=$(VERBOSE)

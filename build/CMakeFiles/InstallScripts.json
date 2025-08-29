@@ -1,7 +1,10 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/rodya/projects/engine/build/cmake_install.cmake"
+		"/home/rodya/projects/engine/build/cmake_install.cmake",
+		"/home/rodya/projects/engine/build/lib/glfw/cmake_install.cmake",
+		"/home/rodya/projects/engine/build/lib/glfw/src/cmake_install.cmake",
+		"/home/rodya/projects/engine/build/lib/glfw/docs/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
