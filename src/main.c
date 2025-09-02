@@ -32,6 +32,11 @@ int main(void) {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO)   
     glBufferData(GL_ARRARY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, NULL);
+
+
+    
+
 
     while(!glfwWindowShouldClose(window)){
         processInput(window);
