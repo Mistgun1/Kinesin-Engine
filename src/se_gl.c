@@ -61,7 +61,6 @@ PFNGLBLITFRAMEBUFFER glBlitFramebuffer = NULL;
     func = (func_type)glfwGetProcAddress(#func); \
     if (!func) { \
         fprintf(stderr, "Failed to load OpenGL function: %s\n", #func); \
-        exit(1); \
     }
 
 void se_init_opengl() {
