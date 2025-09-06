@@ -1,5 +1,6 @@
 #ifndef SHADER_H
 #define SHADER_H
+#define SHADER_PATH "../shaders/"
 
 #include "se_gl.h"
 #include <stdio.h>
@@ -9,8 +10,8 @@
 
 typedef struct Shader{
     unsigned int ID;
-    char *vertexPath;
-    char *fragmentPath;
+    char *vertexFileName;
+    char *fragmentFileName;
 }Shader;
 
 void initShader(Shader *shader);

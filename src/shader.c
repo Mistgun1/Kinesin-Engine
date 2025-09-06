@@ -1,12 +1,18 @@
 #include "shader.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 void initShader(Shader *shader){
 
-    FILE *fragmentShaderFile = fopen(shader->fragmentPath, "r");
-    FILE *vertexShaderFile = fopen(shader->vertexPath, "r");
+    char* fragmentPath; 
+    char* vertexPath;
+
+    sprintf(fragmentPath, "%s%s", SHADER_PATH, shader->fragmentFileName);
+    sprintf(vertexPath, "%s%s", SHADER_PATH, shader->vertexFileName);
+
+    FILE *fragmentShaderFile = fopen(fragmentPath, "r");
+    FILE *vertexShaderFile = fopen(vertexPath, "r");
 
     int fragmentFileSize = fseek(fragmentShaderFile, 0, SEEK_END);
     char fragmentBuffer[fragmentFileSize];
