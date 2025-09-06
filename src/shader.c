@@ -16,11 +16,11 @@ void initShader(Shader *shader){
 
     int fragmentFileSize = fseek(fragmentShaderFile, 0, SEEK_END);
     char fragmentBuffer[fragmentFileSize];
-    char *fragmentShaderCode = fgets(fragmentBuffer, sizeof(fragmentBuffer), fragmentShaderFile);
+    const char *fragmentShaderCode = fgets(fragmentBuffer, sizeof(fragmentBuffer), fragmentShaderFile);
 
     int vertexFileSize = fseek(vertexShaderFile, 0, SEEK_END);
     char vertexBuffer[vertexFileSize];
-    char *vertexShaderCode = fgets(vertexBuffer, sizeof(vertexBuffer), vertexShaderFile);
+    const char *vertexShaderCode = fgets(vertexBuffer, sizeof(vertexBuffer), vertexShaderFile);
 
     fclose(fragmentShaderFile);
     fclose(vertexShaderFile);
