@@ -6,6 +6,7 @@
 
 void initShader(Shader *shader){
 
+    //copying the shaders from the files
     char fragmentPath[250]; 
     char vertexPath[250];
 
@@ -27,20 +28,6 @@ void initShader(Shader *shader){
 
     fclose(fragmentShaderFile);
     fclose(vertexShaderFile);
-
-    //const char *vertexShaderCode = "#version 330 core\n"
-    //"layout (location = 0) in vec3 aPos;\n"
-    //"void main()\n"
-    //"{\n"
-    //"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    //"}\0";
-
-    //const char *fragmentShaderCode = "#version 330 core\n"
-    //"out vec4 FragColor;\n"
-    //"void main()\n"
-    //"{\n"
-    //"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    //"}\0";
 
     int vertex, fragment;
     int success;
@@ -85,7 +72,6 @@ void useShader(Shader *shader){
 void setBool(Shader *shader, char *name, bool value){
     glUniform1i(glGetUniformLocation(shader->ID, name), (int)value);
 }
-
 
 void setFloat(Shader *shader, char *name, float value){
     glUniform1i(glGetUniformLocation(shader->ID, name), value);
