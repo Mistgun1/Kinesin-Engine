@@ -32,57 +32,11 @@ int main(void){
 
     initShader(&colorful);
 
-    //const char* vertexShaderSource = "#version 420 core\n"
-    //    "layout (location = 0) in vec3 aPos;\n"
-    //    "void main()\n"
-    //    "{\n"
-    //    "gl_Position = vec4(aPos.x,aPos.y,aPos.z,1.0);\n"
-    //    "}\0";
-    //unsigned int vertexShader;
-    //vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    //glShaderSource(vertexShader, 1 ,&vertexShaderSource, NULL);
-    //glCompileShader(vertexShader);
-
-    //const char* fragmentShaderSource = "#version 420 core\n"
-    //    "out vec4 FragColor;\n"
-    //    "void main ()\n"
-    //    "{\n"
-    //    "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    //    "}\0";
-    //unsigned int fragmentShader;
-    //fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    //glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    //glCompileShader(fragmentShader);
-
-
-    //// check shader compilation
-    //int success;
-    //char infoLog[512];
-    //glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    //if (!success){
-    //    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    //    printf("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", infoLog);
-    //}
-
-    //glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    //if (!success){
-    //    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    //    printf("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n%s\n", infoLog);
-    //}
-
-    //unsigned int shaderProgram;
-    //shaderProgram = glCreateProgram();
-    //glAttachShader(shaderProgram, vertexShader);
-    //glAttachShader(shaderProgram, fragmentShader);
-    //glLinkProgram(shaderProgram);
-    //glDeleteShader(vertexShader);
-    //glDeleteShader(fragmentShader);
-
     float vertices[] = {
-        0.5f,  0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-       -0.5f, -0.5f, 0.0f,
-       -0.5f,  0.5f, 0.0f
+        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+       -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f
     };
     unsigned int indices[] = {
         0, 1, 3,
@@ -105,9 +59,12 @@ int main(void){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
    
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     //glBindVertexArray(0);
 

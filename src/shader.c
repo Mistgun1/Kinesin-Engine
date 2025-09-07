@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 
+
 void initShader(Shader *shader){
 
-    char* fragmentPath; 
-    char* vertexPath;
+    char fragmentPath[250]; 
+    char vertexPath[250];
 
     sprintf(fragmentPath, "%s%s", SHADER_PATH, shader->fragmentFileName);
     sprintf(vertexPath, "%s%s", SHADER_PATH, shader->vertexFileName);
@@ -14,16 +15,32 @@ void initShader(Shader *shader){
     FILE *fragmentShaderFile = fopen(fragmentPath, "r");
     FILE *vertexShaderFile = fopen(vertexPath, "r");
 
-    int fragmentFileSize = fseek(fragmentShaderFile, 0, SEEK_END);
-    char fragmentBuffer[fragmentFileSize];
-    const char *fragmentShaderCode = fgets(fragmentBuffer, sizeof(fragmentBuffer), fragmentShaderFile);
+    setvbuf(fragmentShaderFile, NULL, _IOFBF, BUFSIZ);
+    char fragmentBuffer[BUFSIZ];
+    fread(fragmentBuffer, 1, BUFSIZ, fragmentShaderFile);
+    const char *fragmentShaderCode = fragmentBuffer;
 
-    int vertexFileSize = fseek(vertexShaderFile, 0, SEEK_END);
-    char vertexBuffer[vertexFileSize];
-    const char *vertexShaderCode = fgets(vertexBuffer, sizeof(vertexBuffer), vertexShaderFile);
+    setvbuf(vertexShaderFile, NULL, _IOFBF, BUFSIZ);
+    char vertexBuffer[BUFSIZ];
+    fread(vertexBuffer, 1, BUFSIZ, vertexShaderFile);
+    const char *vertexShaderCode = vertexBuffer;
 
     fclose(fragmentShaderFile);
     fclose(vertexShaderFile);
+
+    //const char *vertexShaderCode = "#version 330 core\n"
+    //"layout (location = 0) in vec3 aPos;\n"
+    //"void main()\n"
+    //"{\n"
+    //"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    //"}\0";
+
+    //const char *fragmentShaderCode = "#version 330 core\n"
+    //"out vec4 FragColor;\n"
+    //"void main()\n"
+    //"{\n"
+    //"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    //"}\0";
 
     int vertex, fragment;
     int success;
@@ -46,7 +63,7 @@ void initShader(Shader *shader){
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
         printf("ERROR::FRAGMENT::%s\n", infoLog);
     }
-    
+   
     shader->ID = glCreateProgram();
     glAttachShader(shader->ID, vertex);
     glAttachShader(shader->ID, fragment);
