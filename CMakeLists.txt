@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.22)
 project(ENGINE C)
 
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
@@ -7,10 +7,7 @@ set(BIN_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources")
 set(EXAMPLES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/examples")
 
-cmake_policy(SET CMP0072 NEW)
-set(OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
-
 add_subdirectory(${LIB_DIR}/glfw)
 
 #find_package(PkgConfig REQUIRED)
