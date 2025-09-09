@@ -1,5 +1,5 @@
-#ifndef RE_MATH_H
-#define RE_MATH_H
+#ifndef KE_MATH_H
+#define KE_MATH_H
 
 #include <stdlib.h>
 
@@ -30,7 +30,7 @@ typedef struct mat4 {
 vec2 vec2_create(float x, float y);
 vec3 vec3_create(float x, float y, float z);
 vec4 vec4_create(float x, float y, float z, float w);
-mat4 mat4_create(void);
+mat4 mat4_identity_create(void);
 
 vec2 vec2_add(vec2 a, vec2 b);
 vec3 vec3_add(vec3 a, vec3 b);
@@ -48,13 +48,15 @@ float vec2_length(vec2 a);
 float vec3_length(vec3 a);
 float vec4_length(vec4 a);
 
-void vec2_normalize(vec2 a);
-void vec3_normalize(vec3 a);
-void vec4_normalize(vec4 a);
+vec2 vec2_normalize(vec2 a);
+vec3 vec3_normalize(vec3 a);
+vec4 vec4_normalize(vec4 a);
 
-mat4 mat4_translate(float x, float y, float z);
-mat4 mat4_rotate(float angle, float x, float y, float z);
-mat4 mat4_scale(float x, float y, float z);
+mat4 mat4_translate(vec3* v);
+mat4 mat4_rotate_x(float angle);
+mat4 mat4_rotate_y(float angle);
+mat4 mat4_rotate_z(float angle);
+mat4 mat4_scale(vec3* v);
 mat4 mat4_multiply(mat4 a, mat4 b);
 
 #endif

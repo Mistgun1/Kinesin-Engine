@@ -3,7 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "shader.h"
+#include "ke_shader.h"
+#include "ke_math.h"
 #include "stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
