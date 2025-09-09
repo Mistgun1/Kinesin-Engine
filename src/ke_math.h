@@ -1,0 +1,61 @@
+#ifndef RE_MATH_H
+#define RE_MATH_H
+
+#include <stdlib.h>
+
+#define PI 3.14159265358979323846
+
+typedef struct vec2 {
+    float x;
+    float y;
+} vec2;
+
+typedef struct vec3 {
+    float x;
+    float y;
+    float z;
+} vec3;
+
+typedef struct vec4 {
+    float x;
+    float y;
+    float z;
+    float w;
+} vec4;
+
+typedef struct mat4 {
+    float m[16];
+} mat4;
+
+vec2 vec2_create(float x, float y);
+vec3 vec3_create(float x, float y, float z);
+vec4 vec4_create(float x, float y, float z, float w);
+mat4 mat4_create(void);
+
+vec2 vec2_add(vec2 a, vec2 b);
+vec3 vec3_add(vec3 a, vec3 b);
+vec4 vec4_add(vec4 a, vec4 b);
+
+vec2 vec2_sub(vec2 a, vec2 b);
+vec3 vec3_sub(vec3 a, vec3 b);
+vec4 vec4_sub(vec4 a, vec4 b);
+
+float vec2_dot(vec2 a, vec2 b);
+float vec3_dot(vec3 a, vec3 b);
+float vec4_dot(vec4 a, vec4 b);
+
+float vec2_length(vec2 a);
+float vec3_length(vec3 a);
+float vec4_length(vec4 a);
+
+void vec2_normalize(vec2 a);
+void vec3_normalize(vec3 a);
+void vec4_normalize(vec4 a);
+
+mat4 mat4_translate(float x, float y, float z);
+mat4 mat4_rotate(float angle, float x, float y, float z);
+mat4 mat4_scale(float x, float y, float z);
+mat4 mat4_multiply(mat4 a, mat4 b);
+
+#endif
+
