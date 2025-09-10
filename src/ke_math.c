@@ -175,3 +175,38 @@ mat4 mat4_rotate_z(float angle){
     return r;
 }
 
+mat4 mat4_rotate(float angle, vec3* axis){
+    mat4 r = mat4_identity_create();
+    float c = cosf(angle);
+    float s = sinf(angle);
+    r.m[0] = c + axis->x * axis->x * (1 - c);
+    r.m[1] = axis->x * axis->y * (1 - c) - axis->z * s;
+    r.m[2] = axis->x * axis->z * (1 - c) + axis->y * s;
+    r.m[4] = axis->y * axis->x * (1 - c) + axis->z * s;
+    r.m[5] = c + axis->y * axis->y * (1 - c);
+    r.m[6] = axis->y * axis->z * (1 - c) - axis->x * s;
+    r.m[8] = axis->z * axis->x * (1 - c) - axis->y * s;
+    r.m[9] = axis->z * axis->y * (1 - c) + axis->x * s;
+    r.m[10] = c + axis->z * axis->z * (1 - c);
+    return r;
+}
+
+
+mat4 mat4_scale(vec3* v){
+    mat4 s = mat4_identity_create();
+    s.m[0] = v->x;
+    s.m[5] = v->y;
+    s.m[10] = v->z;
+    return s;
+}
+
+vec4 mat4_mul_vec4(mat4 m, vec4 v){
+    vec4 result;
+    result.x = m.m[0] * v.x + m.m[1] * v.y + m.m[2] * v.z + m.m[3] * v.w;
+    result.y = m.m[4] * v.x + m.m[5] * v.y + m.m[6] * v.z + m.m[7] * v.w;
+    result.z = m.m[8] * v.x + m.m[9] * v.y + m.m[10] * v.z + m.m[11] * v.w;
+    result.w = m.m[12] * v.x + m.m[13] * v.y + m.m[14] * v.z + m.m[15] * v.w;
+    return result;
+}
+
+

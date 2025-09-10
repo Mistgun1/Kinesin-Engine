@@ -57,7 +57,8 @@ mat4 mat4_rotate_x(float angle);
 mat4 mat4_rotate_y(float angle);
 mat4 mat4_rotate_z(float angle);
 mat4 mat4_scale(vec3* v);
-mat4 mat4_multiply(mat4 a, mat4 b);
+
+vec4 mat4_mul_vec4(mat4 m, vec4 v);
 
 #endif
 
