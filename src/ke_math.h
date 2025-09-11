@@ -27,6 +27,8 @@ typedef struct mat4 {
     float m[16];
 } mat4;
 
+float radians(float degrees);
+
 vec2 vec2_create(float x, float y);
 vec3 vec3_create(float x, float y, float z);
 vec4 vec4_create(float x, float y, float z, float w);
@@ -56,6 +58,7 @@ mat4 mat4_translate(vec3* v);
 mat4 mat4_rotate_x(float angle);
 mat4 mat4_rotate_y(float angle);
 mat4 mat4_rotate_z(float angle);
+mat4 mat4_rotate(float angle, vec3* v);
 mat4 mat4_scale(vec3* v);
 
 vec4 mat4_mul_vec4(mat4 m, vec4 v);

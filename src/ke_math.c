@@ -2,6 +2,10 @@
 #include <stdarg.h>
 #include <math.h>
 
+float radians(float degrees) {
+    return degrees * PI / 180;
+}
+
 vec2 vec2_create(float x, float y) {
     vec2 v;
     v.x = x;
@@ -208,14 +212,18 @@ vec4 mat4_mul_vec4(mat4 m, vec4 v){
     return result;
 }
 
-mat4 mat4_mul_mat4(mat4 a, mat4 b){
-    mat4 result;
-    for(int row = 0; row < 4; row++){
-        for(int col = 0; col < 4; col++){
-            result.m [col + row * 4] = a.m[row] * b.m[col] + a.m[row + 1] * b.m[col + 4] + a.m[row + 2] * b.m[col + 8] + a.m[row + 3] * b.m[col + 12];
+mat4 mat4_mul_mat4(mat4 a, mat4 b) {
+    mat4 R;
+    for(int row=0; row<4; row++){
+        for(int col=0; col<4; col++){
+            float sum = 0.0f;
+            for(int k=0; k<4; k++){
+                sum += a.m[row + 4*k] * b.m[k + 4*col];
+            }
+            R.m[row + 4*col] = sum;
         }
     }
-    return result;
+    return R;
 }
 
 mat4 mat4_mul(int n, ...){
