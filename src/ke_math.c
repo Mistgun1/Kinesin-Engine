@@ -1,4 +1,5 @@
 #include "ke_math.h"
+#include <stdarg.h>
 #include <math.h>
 
 vec2 vec2_create(float x, float y) {
@@ -26,12 +27,10 @@ vec4 vec4_create(float x, float y, float z, float w) {
 }
 
 mat4 mat4_identity_create() {
-    mat4 m = {
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
+    mat4 m = {1, 0, 0, 0,
+              0, 1, 0, 0,
+              0, 0, 1, 0,
+              0, 0, 0, 1};
     return m;
 }
 
@@ -209,4 +208,23 @@ vec4 mat4_mul_vec4(mat4 m, vec4 v){
     return result;
 }
 
+mat4 mat4_mul_mat4(mat4 a, mat4 b){
+    mat4 result;
+    for(int row = 0; row < 4; row++){
+        for(int col = 0; col < 4; col++){
+            result.m [col + row * 4] = a.m[row] * b.m[col] + a.m[row + 1] * b.m[col + 4] + a.m[row + 2] * b.m[col + 8] + a.m[row + 3] * b.m[col + 12];
+        }
+    }
+    return result;
+}
 
+mat4 mat4_mul(int n, ...){
+    va_list args;
+    mat4 result = mat4_identity_create();
+    va_start(args, n);
+    for(int i = n - 1; i >= 0; i--){
+        result = mat4_mul_mat4(result, va_arg(args, mat4));
+    }
+    va_end(args);
+    return result;
+}
