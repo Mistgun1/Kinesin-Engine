@@ -33,14 +33,6 @@ int main(void){
     colorful.fragmentFileName = "colorful.fs";
     initShader(&colorful);
 
-    //float vertices[] = {
-    //    0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-    //    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-    //   -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-    //   -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f
-    //};
-
-
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
          0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -84,12 +76,7 @@ int main(void){
         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
-    unsigned int indices[] = {
-        0, 1, 3,
-        1, 2, 3
-    };
 
-    
 
     unsigned int texture;
     glGenTextures(1, &texture);
@@ -112,15 +99,14 @@ int main(void){
     //VAO and VBO
     unsigned int VBO;
     unsigned int VAO;
-    unsigned int EBO;
+    //unsigned int EBO;
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
-    
+
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO); 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -135,10 +121,13 @@ int main(void){
     //glBindVertexArray(0);
 
 
+    glEnable(GL_DEPTH_TEST);  
+
     while(!glfwWindowShouldClose(window)){
         processInput(window);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(0.6f, 0.2f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture);
         useShader(&colorful);
         
