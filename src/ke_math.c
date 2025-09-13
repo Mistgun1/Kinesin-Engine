@@ -137,7 +137,7 @@ vec4 vec4_normalize(vec4 v) {
     return norm;
 }
 
-mat4 mat4_translate(vec3* v){
+mat4 mat4_translate_create(vec3* v){
     mat4 t = mat4_identity_create();
     t.m[3] = v->x;
     t.m[7] = v->y;
@@ -145,7 +145,7 @@ mat4 mat4_translate(vec3* v){
     return t;
 }
 
-mat4 mat4_rotate_x(float angle){
+mat4 mat4_rotate_x_create(float angle){
     mat4 r = mat4_identity_create();
     float c = cosf(angle);
     float s = sinf(angle);
@@ -156,7 +156,7 @@ mat4 mat4_rotate_x(float angle){
     return r;
 }
 
-mat4 mat4_rotate_y(float angle){
+mat4 mat4_rotate_y_create(float angle){
     mat4 r = mat4_identity_create();
     float c = cosf(angle);
     float s = sinf(angle);
@@ -167,7 +167,7 @@ mat4 mat4_rotate_y(float angle){
     return r;
 }
 
-mat4 mat4_rotate_z(float angle){
+mat4 mat4_rotate_z_create(float angle){
     mat4 r = mat4_identity_create();
     float c = cosf(angle);
     float s = sinf(angle);
@@ -178,7 +178,7 @@ mat4 mat4_rotate_z(float angle){
     return r;
 }
 
-mat4 mat4_rotate(float angle, vec3* axis){
+mat4 mat4_rotate_create(float angle, vec3* axis){
     mat4 r = mat4_identity_create();
     float c = cosf(angle);
     float s = sinf(angle);
@@ -195,7 +195,7 @@ mat4 mat4_rotate(float angle, vec3* axis){
 }
 
 
-mat4 mat4_scale(vec3* v){
+mat4 mat4_scale_create(vec3* v){
     mat4 s = mat4_identity_create();
     s.m[0] = v->x;
     s.m[5] = v->y;

@@ -7,6 +7,7 @@
 #include "ke_math.h"
 #include "stb_image.h"
 #include "ke_camera.h"
+#include "ke_transform.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
 void processInput(GLFWwindow *window);
@@ -79,7 +80,7 @@ int main(void){
 
 
     unsigned int texture;
-    glGenTextures(1, &texture);
+    glGenTextures(1, &texture); 
     glBindTexture(GL_TEXTURE_2D, texture);
     // load and generate the texture
     int width, height, nrChannels;
@@ -132,17 +133,14 @@ int main(void){
         useShader(&colorful);
         
         mat4 model = mat4_identity_create();
-        vec3 scale_model = vec3_create(0.1f, 0.1f, 0.1f);
-        model = mat4_mul_mat4(model, mat4_scale(&scale_model));
-        
+        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+       
         vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        mat4 rotate_mat4 = mat4_rotate((float)glfwGetTime() * radians(55.0f), &rotation_axis);
-        model = mat4_mul_mat4(model, rotate_mat4);
+        rotate(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
         mat4 view = mat4_identity_create();
-        vec3 translate_vec = vec3_create(0.0f, 0.0f, -3.0f);
-        mat4 translate = mat4_translate(&translate_vec);
-        view = mat4_mul_mat4(view, translate);
+        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+    
         mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 
     
         int modelLocation = glGetUniformLocation(colorful.ID, "model");

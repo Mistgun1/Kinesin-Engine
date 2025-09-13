@@ -54,12 +54,12 @@ vec2 vec2_normalize(vec2 a);
 vec3 vec3_normalize(vec3 a);
 vec4 vec4_normalize(vec4 a);
 
-mat4 mat4_translate(vec3* v);
-mat4 mat4_rotate_x(float angle);
-mat4 mat4_rotate_y(float angle);
-mat4 mat4_rotate_z(float angle);
-mat4 mat4_rotate(float angle, vec3* v);
-mat4 mat4_scale(vec3* v);
+mat4 mat4_translate_create(vec3* v);
+mat4 mat4_rotate_x_create(float angle);
+mat4 mat4_rotate_y_create(float angle);
+mat4 mat4_rotate_z_create(float angle);
+mat4 mat4_rotate_create(float angle, vec3* v);
+mat4 mat4_scale_create(vec3* v);
 
 vec4 mat4_mul_vec4(mat4 m, vec4 v);
 mat4 mat4_mul_mat4(mat4 a, mat4 b);
