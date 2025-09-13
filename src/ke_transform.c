@@ -27,8 +27,14 @@ void rotate_z(mat4 *m, float angle){
     *m = mat4_mul_mat4(*m, r);
 }
 
-void rotate(mat4 *m, float angle, vec3 *axis){
+void rotate_vec3(mat4 *m, float angle, vec3 *axis){
     mat4 r = mat4_rotate_create(angle, axis);
+    *m = mat4_mul_mat4(*m, r);
+}
+
+void rotate_xyz(mat4 *m, float angle, float x, float y, float z){
+    vec3 axis = {x, y, z};
+    mat4 r = mat4_rotate_create(angle, &axis);
     *m = mat4_mul_mat4(*m, r);
 }
 

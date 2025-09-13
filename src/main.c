@@ -136,7 +136,7 @@ int main(void){
         scale_xyz(&model, 0.1f, 0.1f, 0.1f);
        
         vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        rotate(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
         mat4 view = mat4_identity_create();
         translate_xyz(&view, 0.0f, 0.0f, -3.0f);
