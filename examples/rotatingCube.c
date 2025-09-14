@@ -8,25 +8,15 @@
 #include "stb_image.h"
 #include "ke_camera.h"
 #include "ke_transform.h"
+#include "window.h"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
+
 void processInput(GLFWwindow *window);
 
 int main(void){
+    
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (window == NULL){
-        printf("Failed to create GLFW window");
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glViewport(0, 0, 800, 600);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    GLFWwindow* window = createWindow(800, 600, "LearnOpenGL");
     se_init_opengl();
 
     Shader colorful;
@@ -169,6 +159,3 @@ void processInput(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height){
-    glViewport(0, 0, width, height);
-}  

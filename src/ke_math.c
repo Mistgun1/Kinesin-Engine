@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <math.h>
 
+
 float radians(float degrees) {
     return degrees * PI / 180;
 }
@@ -59,6 +60,30 @@ vec4 vec4_negate(vec4 v) {
     result.y = -v.y;
     result.z = -v.z;
     result.w = -v.w;
+    return result;
+}
+
+vec2 vec2_mul_float(vec2 v, float f) {
+    vec2 result;
+    result.x = v.x * f;
+    result.y = v.y * f;
+    return result;
+}
+
+vec3 vec3_mul_float(vec3 v, float f) {
+    vec3 result;
+    result.x = v.x * f;
+    result.y = v.y * f;
+    result.z = v.z * f;
+    return result;
+}
+
+vec4 vec4_mul_float(vec4 v, float f) {
+    vec4 result;
+    result.x = v.x * f;
+    result.y = v.y * f;
+    result.z = v.z * f;
+    result.w = v.w * f;
     return result;
 }
 

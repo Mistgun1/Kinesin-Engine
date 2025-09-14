@@ -38,6 +38,10 @@ vec2 vec2_negate(vec2 a);
 vec3 vec3_negate(vec3 a);
 vec4 vec4_negate(vec4 a);
 
+vec2 vec2_mul_float(vec2 a, float b);
+vec3 vec3_mul_float(vec3 a, float b);
+vec4 vec4_mul_float(vec4 a, float b);
+
 vec2 vec2_add(vec2 a, vec2 b);
 vec3 vec3_add(vec3 a, vec3 b);
 vec4 vec4_add(vec4 a, vec4 b);

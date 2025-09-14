@@ -2,19 +2,19 @@
 #include "ke_math.h"
 #include <math.h>
 
-mat4 mat4_perspective(float fov, float aspectRatio, float front, float back){
+mat4 mat4_perspective(float fov, float aspectRatio, float near, float far){
     mat4 perspective = mat4_identity();
     
     const float DEG2RAD = PI / 180.0f;
     float tangent = tanf(fov * DEG2RAD / 2.0f);
-    float top = front * tangent;
+    float top = near * tangent;
     float right = top * aspectRatio;
 
-    perspective.m[0] = front / right;
-    perspective.m[5] = front / top;
-    perspective.m[10] = -(back + front) / (back - front);
+    perspective.m[0] = near / right;
+    perspective.m[5] = near / top;
+    perspective.m[10] = -(far + near) / (far - near);
     perspective.m[11] = -1.0f;
-    perspective.m[14] = -(2.0f * back * front) / (back - front);
+    perspective.m[14] = -(2.0f * far * near) / (far - near);
     return perspective;
 }
 
