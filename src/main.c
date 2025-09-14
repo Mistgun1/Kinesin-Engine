@@ -132,13 +132,13 @@ int main(void){
         glBindTexture(GL_TEXTURE_2D, texture);
         useShader(&colorful);
         
-        mat4 model = mat4_identity_create();
+        mat4 model = mat4_identity();
         scale_xyz(&model, 0.1f, 0.1f, 0.1f);
        
         vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
         rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
-        mat4 view = mat4_identity_create();
+        mat4 view = mat4_identity();
         translate_xyz(&view, 0.0f, 0.0f, -3.0f);
     
         mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 

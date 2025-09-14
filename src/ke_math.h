@@ -32,7 +32,11 @@ float radians(float degrees);
 vec2 vec2_create(float x, float y);
 vec3 vec3_create(float x, float y, float z);
 vec4 vec4_create(float x, float y, float z, float w);
-mat4 mat4_identity_create(void);
+mat4 mat4_identity(void);
+
+vec2 vec2_negate(vec2 a);
+vec3 vec3_negate(vec3 a);
+vec4 vec4_negate(vec4 a);
 
 vec2 vec2_add(vec2 a, vec2 b);
 vec3 vec3_add(vec3 a, vec3 b);
@@ -54,17 +58,19 @@ vec2 vec2_normalize(vec2 a);
 vec3 vec3_normalize(vec3 a);
 vec4 vec4_normalize(vec4 a);
 
-mat4 mat4_translate_create(vec3* v);
-mat4 mat4_rotate_x_create(float angle);
-mat4 mat4_rotate_y_create(float angle);
-mat4 mat4_rotate_z_create(float angle);
-mat4 mat4_rotate_create(float angle, vec3* v);
-mat4 mat4_scale_create(vec3* v);
+mat4 mat4_translate(vec3* v);
+mat4 mat4_rotate_x(float angle);
+mat4 mat4_rotate_y(float angle);
+mat4 mat4_rotate_z(float angle);
+mat4 mat4_rotate(float angle, vec3* v);
+mat4 mat4_scale(vec3* v);
 
 vec4 mat4_mul_vec4(mat4 m, vec4 v);
 mat4 mat4_mul_mat4(mat4 a, mat4 b);
 
 mat4 mat4_mul(int n, ...);
+
+vec3 vec3_cross(vec3 a, vec3 b);
 
 #endif
 
