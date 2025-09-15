@@ -8,8 +8,10 @@
 #include "stb_image.h"
 #include "ke_camera.h"
 #include "ke_transform.h"
-#include "window.h"
+#include "ke_window.h"
+#include "ke_shapes.h"
 
+#define SourceFiles ../src/
 
 void processInput(GLFWwindow *window);
 
@@ -24,50 +26,8 @@ int main(void){
     colorful.fragmentFileName = "colorful.fs";
     initShader(&colorful);
 
-    float vertices[] = {
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-
+    vec3 red = vec3_create(1.0f, 0.0f, 0.0f);
+    shape* triangle = generate_triangle(red);
 
     unsigned int texture;
     glGenTextures(1, &texture); 
@@ -90,25 +50,29 @@ int main(void){
     //VAO and VBO
     unsigned int VBO;
     unsigned int VAO;
-    //unsigned int EBO;
+    unsigned int EBO;
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //glGenBuffers(1, &VBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO); 
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(triangle->vertices), triangle->vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    //glGenBuffers(1, &EBO);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangle->indices), triangle->indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
    
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    //glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
-    //glBindBuffer(GL_ARRAY_BUFFER, 0); 
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
     //glBindVertexArray(0);
 
 
@@ -122,27 +86,29 @@ int main(void){
         glBindTexture(GL_TEXTURE_2D, texture);
         useShader(&colorful);
         
-        mat4 model = mat4_identity();
-        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+        //mat4 model = mat4_identity();
+        //scale_xyz(&model, 0.1f, 0.1f, 0.1f);
        
-        vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        //vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
+        //rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
-        mat4 view = mat4_identity();
-        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+        //mat4 view = mat4_identity();
+        //translate_xyz(&view, 0.0f, 0.0f, -3.0f);
     
-        mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 
+        //mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 
     
-        int modelLocation = glGetUniformLocation(colorful.ID, "model");
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
-        int viewLocation = glGetUniformLocation(colorful.ID, "view");
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
-        int projectionLocation = glGetUniformLocation(colorful.ID, "projection");
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
+        //int modelLocation = glGetUniformLocation(colorful.ID, "model");
+        //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
+        //int viewLocation = glGetUniformLocation(colorful.ID, "view");
+        //glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
+        //int projectionLocation = glGetUniformLocation(colorful.ID, "projection");
+        //glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
         
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+        //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();   
     }
