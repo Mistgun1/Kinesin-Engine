@@ -11,14 +11,13 @@
 #include "ke_window.h"
 #include "ke_shapes.h"
 
-#define SourceFiles ../src/
 
 void processInput(GLFWwindow *window);
 
 int main(void){
     
     glfwInit();
-    GLFWwindow* window = createWindow(800, 600, "LearnOpenGL");
+    GLFWwindow* window = createWindow(800, 600, "rotating cube");
     se_init_opengl();
 
     Shader colorful;
@@ -26,8 +25,9 @@ int main(void){
     colorful.fragmentFileName = "colorful.fs";
     initShader(&colorful);
 
-    vec3 red = vec3_create(1.0f, 0.0f, 0.0f);
-    shape* triangle = generate_triangle(red);
+    vec3 red = vec3_create(1.0f, 0.0f, 1.0f);
+    shape* triangle = generate_disc(red, 400);
+
 
     unsigned int texture;
     glGenTextures(1, &texture); 
@@ -55,13 +55,13 @@ int main(void){
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    //glGenBuffers(1, &VBO);
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO); 
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(triangle->vertices), triangle->vertices, GL_STATIC_DRAW);
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * triangle->vertex_count *8, triangle->vertices, GL_STATIC_DRAW);
 
-    //glGenBuffers(1, &EBO);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(triangle->indices), triangle->indices, GL_STATIC_DRAW);
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * triangle->index_count, triangle->indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -76,6 +76,8 @@ int main(void){
     //glBindVertexArray(0);
 
 
+
+
     glEnable(GL_DEPTH_TEST);  
 
     while(!glfwWindowShouldClose(window)){
@@ -86,29 +88,29 @@ int main(void){
         glBindTexture(GL_TEXTURE_2D, texture);
         useShader(&colorful);
         
-        //mat4 model = mat4_identity();
-        //scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+        mat4 model = mat4_identity();
+        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
        
-        //vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        //rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
+        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
-        //mat4 view = mat4_identity();
-        //translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+        mat4 view = mat4_identity();
+        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
     
-        //mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 
+        mat4 projection = mat4_perspective(90.0f, 800.0f/600.0f, 0.1f, 100.0f); 
     
-        //int modelLocation = glGetUniformLocation(colorful.ID, "model");
-        //glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
-        //int viewLocation = glGetUniformLocation(colorful.ID, "view");
-        //glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
-        //int projectionLocation = glGetUniformLocation(colorful.ID, "projection");
-        //glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
+        int modelLocation = glGetUniformLocation(colorful.ID, "model");
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
+        int viewLocation = glGetUniformLocation(colorful.ID, "view");
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
+        int projectionLocation = glGetUniformLocation(colorful.ID, "projection");
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
         
         glBindVertexArray(VAO);
-        //glDrawArrays(GL_TRIANGLES, 0, 36);
-        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, triangle->index_count, GL_UNSIGNED_INT, 0);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();   
     }

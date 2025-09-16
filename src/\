@@ -4,23 +4,11 @@
 #include <stdio.h>
 #include <string.h>
 
-
-shape* generate_shape(int vertex_count, int index_count){
-    shape* result_shape;
-    result_shape = malloc(sizeof(shape));
-    result_shape->vertex_count = vertex_count;
-    result_shape->index_count = index_count;
-    result_shape->vertices = malloc(sizeof(float) * vertex_count * 8);
-    result_shape->indices = malloc(sizeof(int) * index_count);
-    return result_shape;
-}
-
-
 shape* generate_triangle(vec3 color){
    
     int vertex_count = 3;
     int index_count = 3;
-
+    //size_t size = sizeof(int) * index_count + sizeof(float) * vertex_count * 8;
     float triangle_vertices[] = {
         -1.0f, -1.0f, 0, color.x, color.y, color.z, -1.0f, -1.0f,
          1.0f, -1.0f, 0, color.x, color.y, color.z,  1.0f, -1.0f,
@@ -31,9 +19,11 @@ shape* generate_triangle(vec3 color){
         0, 1, 2
     };
 
-    shape* triangle = generate_shape(vertex_count, index_count);
+    shape* triangle = malloc(sizeof(shape));
+    triangle->vertices = (float*)malloc(sizeof(float) * vertex_count * 8);
+    triangle->indices = (int*)malloc(sizeof(int) * index_count);
 
-    for (int i = 0; i < triangle->vertex_count * 8; i++){
+    for (int i = 0; i < vertex_count * 8; i++){
         triangle->vertices[i] = triangle_vertices[i];
     }
    
@@ -46,8 +36,12 @@ shape* generate_triangle(vec3 color){
 
 shape* generate_square(vec3 color){
 
+    shape* square;
+   
     int vertex_count = 4;
     int index_count = 6;
+    size_t size = sizeof(int) * index_count + sizeof(float) * vertex_count * 8;
+    square = malloc(size);
 
     float square_vertices[] = {
         -1.0f, -1.0f, 0, color.x, color.y, color.z, -1.0f, -1.0f,
@@ -60,10 +54,7 @@ shape* generate_square(vec3 color){
         0, 1, 3, 1, 2, 3
     };
 
-
-    shape* square = generate_shape(vertex_count, index_count);
-
-    for (int i = 0; i < vertex_count * 8; i++){
+    for (int i = 0; i < vertex_count; i++){
         square->vertices[i] = square_vertices[i];
     }
    
@@ -74,44 +65,31 @@ shape* generate_square(vec3 color){
     return square;
 }
 
-
-
-shape* generate_disc(vec3 color, int slices){
-
-    int vertex_count = slices + 3;
-    int index_count = (slices + 2) * 3;
-
-    shape* disc = generate_shape(vertex_count, index_count);
-
-    disc->vertices[0] = 0;
-    disc->vertices[1] = 0;
-    disc->vertices[2] = 0;
-    disc->vertices[3] = color.x;
-    disc->vertices[4] = color.y;
-    disc->vertices[5] = color.z;
-    disc->vertices[6] = 0;
-    disc->vertices[7] = 0;
-
-    for (int i = 1; i < slices + 1; i++){
-        disc->vertices[i + 0] = cosf((i - 1)  * 2  * PI / slices);
-        disc->vertices[i + 1] = sinf((i - 1) * 2  * PI / slices);
-        disc->vertices[i + 2] = 0;
-        disc->vertices[i + 3] = color.x;
-        disc->vertices[i + 4] = color.y;
-        disc->vertices[i + 5] = color.z;
-        disc->vertices[i + 6] = cosf((i - 1)* 2  * PI / slices);
-        disc->vertices[i + 7] = sinf((i - 1) * 2  * PI / slices);
-    }
-
-    for (int i = 0; i < slices + 2; i++){
-        disc->indices[i * 3 + 0] = 0;
-        disc->indices[i * 3 + 1] = i + 1;
-        disc->indices[i * 3 + 2] = i + 2;
-    }
-
-
-    return disc;
-}
+//
+//
+//disc* generate_disc(vec3 color, int slices){
+//
+//    disc* disc;
+//    
+//    for (int i = 0; i < slices; i++){
+//        disc->vertices[i].x = cosf(i * 2  * PI / slices);
+//        disc->vertices[i].y = sinf(i * 2  * PI / slices);
+//        disc->vertices[i].z = 0;
+//        disc->vertices[i].r = color.x;
+//        disc->vertices[i].g = color.y;
+//        disc->vertices[i].b = color.z;
+//        disc->vertices[i].u = cosf(i * 2  * PI / slices);
+//        disc->vertices[i].v = sinf(i * 2  * PI / slices);
+//    }
+//
+//    for (int i = 0; i < slices; i++){
+//        disc->indices[i * 3 + 0] = 0;
+//        disc->indices[i * 3 + 1] = i + 1;
+//        disc->indices[i * 3 + 2] = i + 2;
+//    }
+//
+//    return disc;
+//}
 
 //cube* generate_cube(vec3 color){
 //
@@ -142,9 +120,3 @@ shape* generate_disc(vec3 color, int slices){
 //    return cube;
 //        
 //}
-//
-void free_shape(shape* shape){
-    free(shape->vertices);
-    free(shape->indices);
-    free(shape);
-}
