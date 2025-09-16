@@ -25,8 +25,8 @@ int main(void){
     colorful.fragmentFileName = "colorful.fs";
     initShader(&colorful);
 
-    vec3 red = vec3_create(1.0f, 0.0f, 1.0f);
-    shape* triangle = generate_disc(red, 400);
+    vec3 red = vec3_create(1.0f, 1.0f, 1.0f);
+    shape* triangle = generate_sphere(red, 400, 400);
 
 
     unsigned int texture;
