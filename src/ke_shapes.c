@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 shape* generate_shape(int vertex_count, int index_count){
     shape* result_shape;
     result_shape = malloc(sizeof(shape));
@@ -78,7 +77,7 @@ shape* generate_square(vec3 color){
 
 shape* generate_disc(vec3 color, int slices){
 
-    int vertex_count = slices  ;
+    int vertex_count = slices + 1  ;
     int index_count = (slices + 1)  * 3;
 
     shape* disc = generate_shape(vertex_count, index_count);
@@ -92,26 +91,25 @@ shape* generate_disc(vec3 color, int slices){
     disc->vertices[6] = 0.5;
     disc->vertices[7] = 0.5;
 
-    for (int i = 1; i <= slices ; i++){
-        disc->vertices[i * 8 + 0] = cosf((i - 1) * 2  * PI / slices);
-        disc->vertices[i * 8 + 1] = sinf((i - 1) * 2  * PI / slices);
-        disc->vertices[i * 8 + 2] = 0;
-        disc->vertices[i * 8 + 3] = color.x;
-        disc->vertices[i * 8 + 4] = color.y;
-        disc->vertices[i * 8 + 5] = color.z;
-        disc->vertices[i * 8 + 6] = (cosf((i - 1) * 2  * PI / slices) * 0.5) + 0.5;
-        disc->vertices[i * 8 + 7] = (sinf((i - 1) * 2  * PI / slices) * 0.5) + 0.5;
+    for (int i = 0; i < slices ; i++){
+        disc->vertices[(i + 1) * 8 + 0] = cosf(i * 2  * PI / slices) ;
+        disc->vertices[(i + 1) * 8 + 1] = sinf(i * 2  * PI / slices) ;
+        disc->vertices[(i + 1) * 8 + 2] = 0;
+        disc->vertices[(i + 1) * 8 + 3] = color.x;
+        disc->vertices[(i + 1) * 8 + 4] = color.y;
+        disc->vertices[(i + 1) * 8 + 5] = color.z;
+        disc->vertices[(i + 1) * 8 + 6] = (cosf(i  * 2  * PI / slices) * 0.5) + 0.5;
+        disc->vertices[(i + 1) * 8 + 7] = (sinf(i  * 2  * PI / slices) * 0.5) + 0.5;
     }
 
-    for (int i = 0; i <= slices ; i++){
+    for (int i = 0; i < slices + 1 ; i++){
         disc->indices[i * 3 + 0] = 0;
-        disc->indices[i * 3 + 1] = i + 1;
-        disc->indices[i * 3 + 2] = i + 2;
+        disc->indices[i * 3 + 1] = i;
+        disc->indices[i * 3 + 2] = i + 1;
     }
     disc->indices[slices * 3 + 0] = 0;
     disc->indices[slices * 3 + 1] = slices;
     disc->indices[slices * 3 + 2] = 1;
-
 
     return disc;
 }
@@ -157,8 +155,8 @@ shape* generate_cube(vec3 color){
 
 shape* generate_sphere(vec3 color, int slices, int stacks){
 
-    int vertex_count = slices * stacks;
-    int index_count = slices * stacks * 6;
+    int vertex_count = slices * (stacks - 2) + 2;
+    int index_count = (slices - 2) * stacks * 12;
 
     shape* sphere = generate_shape(vertex_count, index_count);
 
@@ -180,22 +178,43 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
     sphere->vertices[14] = 0;
     sphere->vertices[15] = 0;
 
-    for (int i = 1; i < stacks - 1 ; i++){
-        for (int j = 16; j < slices; j++){
-            sphere->vertices[i * slices * 8 + j * 8 + 0] = cosf(j * 2 * PI / slices);
-            sphere->vertices[i * slices * 8 + j * 8 + 1] = (float)stacks / i;
-            sphere->vertices[i * slices * 8 + j * 8 + 2] = sinf(j * 2 * PI / slices);
-            sphere->vertices[i * slices * 8 + j * 8 + 3] = color.x;
-            sphere->vertices[i * slices * 8 + j * 8 + 4] = color.y;
-            sphere->vertices[i * slices * 8 + j * 8 + 5] = color.z;
-            sphere->vertices[i * slices * 8 + j * 8 + 6] = cosf(j * 2 * PI / slices);
-            sphere->vertices[i * slices * 8 + j * 8 + 7] = (float)stacks / i;
+    for (int i = 2; i < stacks ; i++){
+        float disc_radius = sqrtf((2 * (float)i / stacks) * (2 - 2 * (float)i / stacks));
+        float disc_level = 1 - ((float)i * 2 / stacks);
+        for (int j = 0; j < slices; j++){
+            sphere->vertices[i * slices + j  * 8 + 0] = cosf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[i * slices + j  * 8 + 1] = disc_level;
+            sphere->vertices[i * slices + j  * 8 + 2] = sinf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[i * slices + j  * 8 + 3] = color.x;
+            sphere->vertices[i * slices + j  * 8 + 4] = color.y;
+            sphere->vertices[i * slices + j  * 8 + 5] = color.z;
+            sphere->vertices[i * slices + j  * 8 + 6] = cosf(j * 2 * PI / slices);
+            sphere->vertices[i * slices + j  * 8 + 7] = (float)i / stacks;
         }
     }
 
-    for (int i = 0; i < stacks ; i++){
-        for (int j = 0; j < slices; j++){
-            //to do
+    for (int i = 1; i <= slices; i++){
+        sphere->indices[i * 3 + 0] = 0;
+        sphere->indices[i * 3 + 1] = i + 1;
+        sphere->indices[i * 3 + 2] = i + 2;
+
+    }
+
+    for (int i = (stacks - 1) * slices ; i <= stacks * slices; i++){
+        sphere->indices[i * 3 + 0] = 1;
+        sphere->indices[i * 3 + 1] = i + 1;
+        sphere->indices[i * 3 + 2] = i + 2;
+    }
+
+    for (int i = 1; i < stacks - 1 ; i++){
+        for (int j = 0; j < slices ; j++){
+            sphere->indices[(i * slices + j) * 6 + 0] = i * slices + j;
+            sphere->indices[(i * slices + j) * 6 + 1] = i * slices + j + 1;
+            sphere->indices[(i * slices + j) * 6 + 2] = i * slices + slices;
+            sphere->indices[(i * slices + j) * 6 + 3] = i * slices + j + 1;
+            sphere->indices[(i * slices + j) * 6 + 4] = i * slices + slices;
+            sphere->indices[(i * slices + j) * 6 + 5] = i * slices + slices + 1;
+
         }
     }
     return sphere;

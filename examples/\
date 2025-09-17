@@ -26,7 +26,7 @@ int main(void){
     initShader(&colorful);
 
     vec3 red = vec3_create(1.0f, 1.0f, 1.0f);
-    shape* triangle = generate_sphere(red , 200, 200);
+    shape* triangle = generate_cube(red);
 
 
     unsigned int texture;
@@ -97,7 +97,7 @@ int main(void){
         mat4 view = mat4_identity();
         translate_xyz(&view, 0.0f, 0.0f, -3.0f);
     
-        mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
+        mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f); 
     
         int modelLocation = glGetUniformLocation(colorful.ID, "model");
         glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
