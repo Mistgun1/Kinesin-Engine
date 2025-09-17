@@ -208,13 +208,12 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
 
     for (int i = 1; i < stacks - 1 ; i++){
         for (int j = 0; j < slices ; j++){
-            sphere->indices[(i * slices + j) * 6 + 0] = i * slices + j;
-            sphere->indices[(i * slices + j) * 6 + 1] = i * slices + j + 1;
-            sphere->indices[(i * slices + j) * 6 + 2] = i * slices + slices;
-            sphere->indices[(i * slices + j) * 6 + 3] = i * slices + j + 1;
-            sphere->indices[(i * slices + j) * 6 + 4] = i * slices + slices;
-            sphere->indices[(i * slices + j) * 6 + 5] = i * slices + slices + 1;
-
+            sphere->indices[(i * slices + j) * 6 + 0] = (i - 1) * slices + j;
+            sphere->indices[(i * slices + j) * 6 + 1] = (i - 1) * slices + j + 1;
+            sphere->indices[(i * slices + j) * 6 + 2] = (i - 1) * slices + slices;
+            sphere->indices[(i * slices + j) * 6 + 3] = (i - 1) * slices + j + 1;
+            sphere->indices[(i * slices + j) * 6 + 4] = (i - 1) * slices + slices;
+            sphere->indices[(i * slices + j) * 6 + 5] = (i - 1) * slices + slices + 1;
         }
     }
     return sphere;
