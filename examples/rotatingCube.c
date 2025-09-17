@@ -26,7 +26,7 @@ int main(void){
     initShader(&colorful);
 
     vec3 red = vec3_create(1.0f, 1.0f, 1.0f);
-    shape* triangle = generate_sphere(red, 400, 400);
+    shape* triangle = generate_disc(red , 20);
 
 
     unsigned int texture;
