@@ -195,6 +195,7 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
 
     for (int i = 0; i < stacks ; i++){
         for (int j = 0; j < slices; j++){
+            //to do
         }
     }
     return sphere;
