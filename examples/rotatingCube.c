@@ -26,7 +26,7 @@ int main(void){
     initShader(&colorful);
 
     vec3 red = vec3_create(1.0f, 1.0f, 1.0f);
-    shape* triangle = generate_sphere(red , 200, 200);
+    shape* triangle = generate_sphere(red , 20, 20);
 
 
     unsigned int texture;
@@ -114,7 +114,8 @@ int main(void){
         glfwSwapBuffers(window);
         glfwPollEvents();   
     }
-
+    
+    free_shape(triangle);
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glfwTerminate();
