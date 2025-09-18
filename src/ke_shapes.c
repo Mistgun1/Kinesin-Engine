@@ -178,39 +178,46 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
     sphere->vertices[14] = 0;
     sphere->vertices[15] = 0;
 
-    for (int i = 1; i <= stacks ; i++){
-        float disc_radius = sqrtf((2.0f * i / stacks) * (2 - (2.0f * i / stacks)));
+    for (int i = 1; i < stacks ; i++){
         
+        float disc_radius = sqrtf((2.0f * i / stacks) * (2 - (2.0f * i / stacks)));
         float disc_level = 1 - ((float)i * 2 / stacks);
         //printf("disc levele = %f, disc_radius = %f\n", disc_level, disc_radius);
         for (int j = 0; j <= slices ; j++){
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 0] = cosf(j * 2 * PI / slices) * disc_radius;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 1] = disc_level;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 2] = sinf(j * 2 * PI / slices) * disc_radius;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 3] = color.x;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 4] = color.y;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 5] = color.z;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 6] = sinf(j * PI / slices) ;
-            sphere->vertices[((i - 1) * slices + 1 + j) * 8 + 7] = (float)i / stacks;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 0] = cosf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 1] = disc_level;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 2] = sinf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 3] = color.x;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 4] = color.y;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 5] = color.z;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 6] = sinf(j * PI / slices) ;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 7] = (float)i / stacks;
         }
     }
 
-    for (int i = 0; i < slices ; i++){
+    for (int i = 0; i < slices - 1 ; i++){
         sphere->indices[i * 3 + 0] = 0;
         sphere->indices[i * 3 + 1] = i + 2;
         sphere->indices[i * 3 + 2] = i + 3;
 
     }
 
-    for (int i = 1; i < stacks - 1; i++){
-        for (int j = 1; j <= slices ; j++){
-            sphere->indices[(i * slices + j) * 6 + 0] = i      * slices + j;
-            sphere->indices[(i * slices + j) * 6 + 1] = i      * slices + j + 1;
-            sphere->indices[(i * slices + j) * 6 + 2] = (i + 1)* slices + j;
-            sphere->indices[(i * slices + j) * 6 + 3] = i      * slices + j + 1;
-            sphere->indices[(i * slices + j) * 6 + 4] = (i + 1)* slices + j;
-            sphere->indices[(i * slices + j) * 6 + 5] = (i + 1)* slices + j + 1;
+    sphere->indices[(slices - 1)* 3 + 0] = 0;
+    sphere->indices[(slices - 1)* 3 + 1] = slices + 1;
+    sphere->indices[(slices - 1)* 3 + 2] = 2;
+
+
+
+    for (int i = 1; i < stacks - 1 ; i++){
+        for (int j = 0; j <= slices ; j++){
+            sphere->indices[(i * slices + j ) * 6 + 0] = i      * slices + j;
+            sphere->indices[(i * slices + j ) * 6 + 1] = i      * slices + j + 1;
+            sphere->indices[(i * slices + j ) * 6 + 2] = (i + 1)* slices + j;
+            sphere->indices[(i * slices + j ) * 6 + 3] = i      * slices + j + 1;
+            sphere->indices[(i * slices + j ) * 6 + 4] = (i + 1)* slices + j;
+            sphere->indices[(i * slices + j ) * 6 + 5] = (i + 1)* slices + j + 1;
         }
+    }
 
 
         //sphere->indices[((i + 1) * slices ) * 6 + 0] = (i + 1)* slices + 1;
@@ -219,7 +226,6 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
         //sphere->indices[((i + 1) * slices ) * 6 + 3] = (i + 1)* slices + 1; 
         //sphere->indices[((i + 1) * slices ) * 6 + 4] = (i + 2)* slices + 1;
         //sphere->indices[((i + 1) * slices ) * 6 + 5] = (i + 2)* slices - slices ;
-    }
 
     for (int i = stacks * (slices); i < stacks * slices ; i++){
         sphere->indices[i * 3 + 0] = 1;
