@@ -17,7 +17,7 @@ void processInput(GLFWwindow *window);
 int main(void){
     
     glfwInit();
-    GLFWwindow* window = createWindow(800, 600, "rotating sphere");
+    GLFWwindow* window = createWindow(800, 600, "rotating cube");
     se_init_opengl();
 
     Shader colorful;
@@ -74,6 +74,8 @@ int main(void){
 
     glBindBuffer(GL_ARRAY_BUFFER, 0); 
     //glBindVertexArray(0);
+
+
 
 
     glEnable(GL_DEPTH_TEST);  
