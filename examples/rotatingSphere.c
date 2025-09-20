@@ -17,7 +17,7 @@ void processInput(GLFWwindow *window);
 int main(void){
     
     glfwInit();
-    GLFWwindow* window = createWindow(800, 600, "rotating cube");
+    GLFWwindow* window = createWindow(1920, 1080, "rotating sphere");
     se_init_opengl();
 
     Shader colorful;
