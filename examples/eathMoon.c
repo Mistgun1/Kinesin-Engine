@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <GLFW/glfw3.h>
+#include "ke_math.h"
+#include "ke_physics.h"
+#include "ke_window.h"
+#include "se_gl.h"
+#include "ke_camera.h"
+#include "ke_shader.h"
+#include "ke_shapes.h"
+#include "ke_transform.h"
+#include "stb_image.h"
+
+
+
+void processInput(GLFWwindow* window);
+
+
+int main(int argc, char *argv[]){
+   
+    glfwInit();
+    GLFWwindow* window = createWindow(1920, 1080, "eath moon");
+    se_init_opengl();
+
+    unsigned int earthTexture, moonTexture;
+    glGenTextures(1, &earthTexture);
+    glBindTexture(GL_TEXTURE_2D, earthTexture);
+
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true); 
+    unsigned char *data = stbi_load("../resources/textures/earth.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        printf("Failed to load earth texture\n");
+    }
+    stbi_image_free(data); 
+
+    glGenTextures(1, &moonTexture);
+    glBindTexture(GL_TEXTURE_2D, moonTexture);
+    
+    data = stbi_load("../resources/textures/moon.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        printf("Failed to load moon texture\n");
+    }
+    stbi_image_free(data);
+
+    Shader shader;
+    shader.vertexFileName = "colorful.vs";
+    shader.fragmentFileName = "colorful.fs";
+    initShader(&shader);
+
+    vec3 white = vec3_create(1.0f, 1.0f, 1.0f);
+    shape* sphere = generate_sphere(white , 60, 60);
+    shape* moon = generate_sphere(white , 60, 60);
+
+    unsigned int VBO, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sphere->vertex_count *8, sphere->vertices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * sphere->index_count, sphere->indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glEnable(GL_DEPTH_TEST);
+
+    while(!glfwWindowShouldClose(window)){
+        processInput(window);
+        glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, earthTexture);
+        useShader(&shader);
+        
+        mat4 model = mat4_identity();
+        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+        
+        vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
+        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+
+        mat4 view = mat4_identity();
+        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+    
+        mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
+    
+        int modelLocation = glGetUniformLocation(shader.ID, "model");
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
+        int viewLocation = glGetUniformLocation(shader.ID, "view");
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
+        int projectionLocation = glGetUniformLocation(shader.ID, "projection");
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
+        
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, sphere->index_count, GL_UNSIGNED_INT, 0);
+        
+        glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, moonTexture);
+        useShader(&shader);
+        
+        model = mat4_identity();
+        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+        
+        rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
+        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+
+        view = mat4_identity();
+        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+    
+        projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
+    
+        modelLocation = glGetUniformLocation(shader.ID, "model");
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
+        viewLocation = glGetUniformLocation(shader.ID, "view");
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
+        projectionLocation = glGetUniformLocation(shader.ID, "projection");
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);    
+        glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();   
+    }
+    
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glfwTerminate();
+    return 0;
+
+}
+
+void processInput(GLFWwindow* window){
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+
+
