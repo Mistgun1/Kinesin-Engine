@@ -21,9 +21,10 @@ shape* generate_triangle(vec3 color){
     int index_count = 3;
 
     float triangle_vertices[] = {
-        -1.0f, -1.0f, 0, color.x, color.y, color.z,  0.0f,  0.0f,
-         1.0f, -1.0f, 0, color.x, color.y, color.z,  1.0f,  0.0f,
-         0.5f,  1.0f, 0, color.x, color.y, color.z,  0.5f,  1.0f
+        // position    , color                    , texcoord    , normal
+        -1.0f, -1.0f, 0, color.x, color.y, color.z,  0.0f,  0.0f, 0.0f, 0.0f, 1.0f,
+         1.0f, -1.0f, 0, color.x, color.y, color.z,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f,
+         0.5f,  1.0f, 0, color.x, color.y, color.z,  0.5f,  1.0f, 0.0f, 0.0f, 1.0f
     };
    
     int triangle_indices[] = {
@@ -90,6 +91,10 @@ shape* generate_disc(vec3 color, int slices){
     disc->vertices[5] = color.z;
     disc->vertices[6] = 0.5;
     disc->vertices[7] = 0.5;
+    disc->vertices[8] = 0.0f;
+    disc->vertices[9] = 0.0f;
+    disc->vertices[10] = 1.0f;
+
 
     for (int i = 0; i < slices ; i++){
         disc->vertices[(i + 1) * 8 + 0] = cosf(i * 2  * PI / slices) ;
@@ -100,6 +105,9 @@ shape* generate_disc(vec3 color, int slices){
         disc->vertices[(i + 1) * 8 + 5] = color.z;
         disc->vertices[(i + 1) * 8 + 6] = (cosf(i  * 2  * PI / slices) * 0.5) + 0.5;
         disc->vertices[(i + 1) * 8 + 7] = (sinf(i  * 2  * PI / slices) * 0.5) + 0.5;
+        disc->vertices[(i + 1) * 8 + 8] = 0.0f;
+        disc->vertices[(i + 1) * 8 + 9] = 0.0f;
+        disc->vertices[(i + 1) * 8 + 10] = 1.0f;
     }
 
     for (int i = 0; i < slices + 1 ; i++){
@@ -114,6 +122,9 @@ shape* generate_disc(vec3 color, int slices){
     return disc;
 }
 
+
+
+// TODO: fix this (texture coordinates and normals)
 shape* generate_cube(vec3 color){
 
     int vertex_count = 8;
@@ -170,30 +181,40 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
     sphere->vertices[3] = color.x;
     sphere->vertices[4] = color.y;
     sphere->vertices[5] = color.z;
-    sphere->vertices[6] = 1.0f;
-    sphere->vertices[7] = 1.0f;
-
+    sphere->vertices[6] = 0;
+    sphere->vertices[7] = 0;
     sphere->vertices[8] = 0.0f;
-    sphere->vertices[9] = -1.0f;
+    sphere->vertices[9] = 1.0f;
     sphere->vertices[10] = 0.0f;
-    sphere->vertices[11] = color.x;
-    sphere->vertices[12] = color.y;
-    sphere->vertices[13] = color.z;
-    sphere->vertices[14] = 0;
-    sphere->vertices[15] = 0;
+
+    sphere->vertices[11] = 0.0f;
+    sphere->vertices[12] = -1.0f;
+    sphere->vertices[13] = 0.0f;
+    sphere->vertices[14] = color.x;
+    sphere->vertices[15] = color.y;
+    sphere->vertices[16] = color.z;
+    sphere->vertices[17] = 1.0;
+    sphere->vertices[18] = 1.0;
+    sphere->vertices[19] = 0.0f;
+    sphere->vertices[20] = -1.0f;
+    sphere->vertices[21] = 0.0f;
 
     for (int i = 1; i < stacks ; i++){
         float disc_radius = sqrtf((2.0f * i / stacks) * (2 - (2.0f * i / stacks)));
         float disc_level = 1 - ((float)i * 2 / stacks);
-        for (int j = 0; j <= slices ; j++){
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 0] = cosf(j * 2 * PI / slices) * disc_radius;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 1] = disc_level;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 2] = sinf(j * 2 * PI / slices) * disc_radius;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 3] = color.x;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 4] = color.y;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 5] = color.z;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 6] = sinf(j * PI / slices) ;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 8 + 7] = (float)i / stacks;
+        for (int j = 0; j < slices ; j++){
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 0] = cosf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 1] = disc_level;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 2] = sinf(j * 2 * PI / slices) * disc_radius;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 3] = color.x;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 4] = color.y;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 5] = color.z;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 6] = cosf(j * PI / slices) * 0.5f + 0.5f ;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 7] = (float)i / stacks;
+            vec3 normal = vec3_create(cosf(j * 2 * PI / slices), disc_level, sinf(j * 2 * PI / slices));
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 8] = normal.x;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 9] = normal.y;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 10] = normal.z;
         }
     }
 
