@@ -9,7 +9,7 @@ shape* generate_shape(int vertex_count, int index_count){
     result_shape = malloc(sizeof(shape));
     result_shape->vertex_count = vertex_count;
     result_shape->index_count = index_count;
-    result_shape->vertices = malloc(sizeof(float) * vertex_count * 8);
+    result_shape->vertices = malloc(sizeof(float) * vertex_count * 11);
     result_shape->indices = malloc(sizeof(int) * index_count);
     return result_shape;
 }
@@ -33,7 +33,7 @@ shape* generate_triangle(vec3 color){
 
     shape* triangle = generate_shape(vertex_count, index_count);
 
-    for (int i = 0; i < triangle->vertex_count * 8; i++){
+    for (int i = 0; i < triangle->vertex_count * 11; i++){
         triangle->vertices[i] = triangle_vertices[i];
     }
    
@@ -44,6 +44,7 @@ shape* generate_triangle(vec3 color){
     return triangle;
 }
 
+//TODO: fix this (normals)
 shape* generate_square(vec3 color){
 
     int vertex_count = 4;

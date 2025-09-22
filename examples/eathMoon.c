@@ -61,7 +61,7 @@ int main(int argc, char *argv[]){
     initShader(&shader);
 
     vec3 white = vec3_create(1.0f, 1.0f, 1.0f);
-    shape* sphere = generate_sphere(white , 60, 60);
+    shape* earth = generate_sphere(white , 20, 20);
     shape* moon = generate_sphere(white , 60, 60);
 
     unsigned int VBO, VAO, EBO;
@@ -70,11 +70,11 @@ int main(int argc, char *argv[]){
 
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sphere->vertex_count *8, sphere->vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * earth->vertex_count *11, earth->vertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * sphere->index_count, sphere->indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * earth->index_count, earth->indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -87,8 +87,6 @@ int main(int argc, char *argv[]){
 
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
     glEnableVertexAttribArray(3);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -119,7 +117,7 @@ int main(int argc, char *argv[]){
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
         
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, sphere->index_count, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
         
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, moonTexture);
