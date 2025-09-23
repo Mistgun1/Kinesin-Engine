@@ -115,7 +115,11 @@ int main(int argc, char *argv[]){
         glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
         int projectionLocation = glGetUniformLocation(shader.ID, "projection");
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
-        
+
+        vec3 lightPosition = vec3_create(0.0f, 0.0f, 0.0f);
+        setVec3(&shader, "lightPos", lightPosition);
+
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
         
