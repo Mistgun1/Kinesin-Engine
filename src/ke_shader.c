@@ -18,14 +18,17 @@ void initShader(Shader *shader){
     FILE *fragmentShaderFile = fopen(fragmentPath, "r");
     FILE *vertexShaderFile = fopen(vertexPath, "r");
 
-    setvbuf(fragmentShaderFile, NULL, _IOFBF, BUFSIZ);
-    char fragmentBuffer[BUFSIZ];
-    fread(fragmentBuffer, 1, BUFSIZ, fragmentShaderFile);
+    //setvbuf(fragmentShaderFile, NULL, _IOFBF, BUFSIZ);
+    fseek(fragmentShaderFile, 0, SEEK_END);
+    int fragmentShaderSize = ftell(fragmentShaderFile);
+    fseek(fragmentShaderFile, 0, SEEK_SET);
+    char fragmentBuffer[fragmentShaderSize];
+    fread(fragmentBuffer, 1, fragmentShaderSize, fragmentShaderFile);
     const char *fragmentShaderCode = fragmentBuffer;
 
     setvbuf(vertexShaderFile, NULL, _IOFBF, BUFSIZ);
-    char vertexBuffer[BUFSIZ - 2];
-    fread(vertexBuffer, 1, BUFSIZ - 2, vertexShaderFile);
+    char vertexBuffer[BUFSIZ];
+    fread(vertexBuffer, 1, BUFSIZ, vertexShaderFile);
     const char *vertexShaderCode = vertexBuffer;
 
     fclose(fragmentShaderFile);
@@ -35,7 +38,9 @@ void initShader(Shader *shader){
     int success;
     char infoLog[512];
 
-    
+    printf("vertex shader code is: \n %s\n", vertexShaderCode);
+    printf("fragment shader code is: \n %s\n", fragmentShaderCode);
+
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexShaderCode, NULL);
     glCompileShader(vertex);

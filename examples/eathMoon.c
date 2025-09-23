@@ -15,8 +15,19 @@
 void processInput(GLFWwindow* window);
 
 
+float deltaTime = 0.0f;
+float previousTime = 0.0f;
+
+vec3 cameraPosition;
+vec3 cameraTarget;
+vec3 cameraUp;
+
 int main(int argc, char *argv[]){
    
+    cameraPosition = vec3_create(0.0f, 0.0f, 0.0f);
+    cameraTarget = vec3_create(0.0f, 0.0f, 0.0f);
+    cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
+    
     glfwInit();
     GLFWwindow* window = createWindow(1920, 1080, "eath moon");
     se_init_opengl();
@@ -158,8 +169,21 @@ int main(int argc, char *argv[]){
 }
 
 void processInput(GLFWwindow* window){
+    deltaTime = glfwGetTime() - previousTime;
+    previousTime = glfwGetTime();
+    float cameraspeed = deltaTime * 1.0f;
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        cameraPosition.z += cameraspeed;
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        cameraPosition.z -= cameraspeed;
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        cameraPosition.x -= cameraspeed;
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        cameraPosition.x += cameraspeed;
+
+
 }
 
 
