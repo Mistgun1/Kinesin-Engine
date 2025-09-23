@@ -1,8 +1,10 @@
 #include "ke_shader.h"
+#include "ke_math.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-
+#include <GLFW/glfw3.h>
+#include "se_gl.h"
 
 void initShader(Shader *shader){
 
@@ -22,8 +24,8 @@ void initShader(Shader *shader){
     const char *fragmentShaderCode = fragmentBuffer;
 
     setvbuf(vertexShaderFile, NULL, _IOFBF, BUFSIZ);
-    char vertexBuffer[BUFSIZ];
-    fread(vertexBuffer, 1, BUFSIZ, vertexShaderFile);
+    char vertexBuffer[BUFSIZ - 2];
+    fread(vertexBuffer, 1, BUFSIZ - 2, vertexShaderFile);
     const char *vertexShaderCode = vertexBuffer;
 
     fclose(fragmentShaderFile);
@@ -33,6 +35,7 @@ void initShader(Shader *shader){
     int success;
     char infoLog[512];
 
+    
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexShaderCode, NULL);
     glCompileShader(vertex);
@@ -79,4 +82,12 @@ void setFloat(Shader *shader, char *name, float value){
 
 void setInt(Shader *shader, char *name, int value){
     glUniform1i(glGetUniformLocation(shader->ID, name), value);
+}
+
+void setVec2(Shader *shader, char *name, vec2 value){
+    glUniform2f(glGetUniformLocation(shader->ID, name), value.x, value.y);
+}
+
+void setVec3(Shader *shader, char *name, vec3 value){
+    glUniform3f(glGetUniformLocation(shader->ID, name), value.x, value.y, value.z);
 }

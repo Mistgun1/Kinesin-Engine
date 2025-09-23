@@ -61,7 +61,7 @@ int main(int argc, char *argv[]){
     initShader(&shader);
 
     vec3 white = vec3_create(1.0f, 1.0f, 1.0f);
-    shape* earth = generate_sphere(white , 20, 20);
+    shape* earth = generate_sphere(white , 200, 200);
     shape* moon = generate_sphere(white , 60, 60);
 
     unsigned int VBO, VAO, EBO;

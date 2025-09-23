@@ -1,4 +1,5 @@
-// Syphax-Engine - Ougi Washi
+// this is form Syphax-Engine with a few modifications
+// https://github.com/ougi-washi/Syphax-Engine
 
 #include "se_gl.h"
 #include <stdio.h>
@@ -48,6 +49,9 @@ PFNGLUNIFORM1IV glUniform1iv = NULL;
 PFNGLUNIFORM2IV glUniform2iv = NULL;
 PFNGLUNIFORM3IV glUniform3iv = NULL;
 PFNGLUNIFORM4IV glUniform4iv = NULL;
+PFNGLUNIFORM2F glUniform2f = NULL;
+PFNGLUNIFORM3F glUniform3f = NULL;
+PFNGLUNIFORM4F glUniform4f = NULL;
 PFNGLUNIFORMMATRIX4FV glUniformMatrix4fv = NULL;
 PFNGLBINDRENDERBUFFER glBindRenderbuffer = NULL;
 PFNGLDELETERENDERBUFFERS glDeleteRenderbuffers = NULL;
@@ -108,6 +112,9 @@ void se_init_opengl() {
     INIT_OPENGL_FUNCTION(glUniform2iv, PFNGLUNIFORM2IV);
     INIT_OPENGL_FUNCTION(glUniform3iv, PFNGLUNIFORM3IV);
     INIT_OPENGL_FUNCTION(glUniform4iv, PFNGLUNIFORM4IV);
+    INIT_OPENGL_FUNCTION(glUniform2f, PFNGLUNIFORM2F);
+    INIT_OPENGL_FUNCTION(glUniform3f, PFNGLUNIFORM3F);
+    INIT_OPENGL_FUNCTION(glUniform4f, PFNGLUNIFORM4F);
     INIT_OPENGL_FUNCTION(glUniformMatrix4fv, PFNGLUNIFORMMATRIX4FV);
     INIT_OPENGL_FUNCTION(glBindRenderbuffer, PFNGLBINDRENDERBUFFER);
     INIT_OPENGL_FUNCTION(glDeleteRenderbuffers, PFNGLDELETERENDERBUFFERS);

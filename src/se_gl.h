@@ -1,4 +1,5 @@
-// Syphax-Engine - Ougi Washi
+// this is form Syphax-Engine with a few modifications
+// https://github.com/ougi-washi/Syphax-Engine
 
 #ifndef SE_GL_H
 #define SE_GL_H
@@ -58,6 +59,9 @@ typedef void (APIENTRY * PFNGLUNIFORM1IV)(GLint location, GLsizei count, const G
 typedef void (APIENTRY * PFNGLUNIFORM2IV)(GLint location, GLsizei count, const GLint *value);
 typedef void (APIENTRY * PFNGLUNIFORM3IV)(GLint location, GLsizei count, const GLint *value);
 typedef void (APIENTRY * PFNGLUNIFORM4IV)(GLint location, GLsizei count, const GLint *value);
+typedef void (APIENTRY * PFNGLUNIFORM2F)(GLint location, GLfloat v0, GLfloat v1);
+typedef void (APIENTRY * PFNGLUNIFORM3F)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+typedef void (APIENTRY * PFNGLUNIFORM4F)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
 typedef void (APIENTRY * PFNGLUNIFORMMATRIX4FV)(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 typedef void (APIENTRY * PFNGLBINDRENDERBUFFER)(GLenum target, GLuint renderbuffer);
 typedef void (APIENTRY * PFNGLDELETERENDERBUFFERS)(GLsizei n, const GLuint *renderbuffers);
@@ -111,6 +115,9 @@ extern PFNGLUNIFORM1IV glUniform1iv;
 extern PFNGLUNIFORM2IV glUniform2iv;
 extern PFNGLUNIFORM3IV glUniform3iv;
 extern PFNGLUNIFORM4IV glUniform4iv;
+extern PFNGLUNIFORM2F glUniform2f;
+extern PFNGLUNIFORM3F glUniform3f;
+extern PFNGLUNIFORM4F glUniform4f;
 extern PFNGLUNIFORMMATRIX4FV glUniformMatrix4fv;
 extern PFNGLBINDRENDERBUFFER glBindRenderbuffer;
 extern PFNGLDELETERENDERBUFFERS glDeleteRenderbuffers;
@@ -122,4 +129,4 @@ extern PFNGLBLITFRAMEBUFFER glBlitFramebuffer;
 
 extern void se_init_opengl();
 
-#endif // SE_GL_H
+#endif 
