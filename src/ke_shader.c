@@ -7,7 +7,8 @@
 #include "se_gl.h"
 
 void initShader(Shader *shader){
-
+    
+    // always initialize shaders before loading any textures or materials
     //copying the shaders from the files
     char fragmentPath[250]; 
     char vertexPath[250];
@@ -18,12 +19,9 @@ void initShader(Shader *shader){
     FILE *fragmentShaderFile = fopen(fragmentPath, "r");
     FILE *vertexShaderFile = fopen(vertexPath, "r");
 
-    //setvbuf(fragmentShaderFile, NULL, _IOFBF, BUFSIZ);
-    fseek(fragmentShaderFile, 0, SEEK_END);
-    int fragmentShaderSize = ftell(fragmentShaderFile);
-    fseek(fragmentShaderFile, 0, SEEK_SET);
-    char fragmentBuffer[fragmentShaderSize];
-    fread(fragmentBuffer, 1, fragmentShaderSize, fragmentShaderFile);
+    setvbuf(fragmentShaderFile, NULL, _IOFBF, BUFSIZ);
+    char fragmentBuffer[BUFSIZ];
+    fread(fragmentBuffer, 1, BUFSIZ, fragmentShaderFile);
     const char *fragmentShaderCode = fragmentBuffer;
 
     setvbuf(vertexShaderFile, NULL, _IOFBF, BUFSIZ);
@@ -37,10 +35,6 @@ void initShader(Shader *shader){
     int vertex, fragment;
     int success;
     char infoLog[512];
-
-    printf("vertex shader code is: \n %s\n", vertexShaderCode);
-    printf("fragment shader code is: \n %s\n", fragmentShaderCode);
-
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertexShaderCode, NULL);
     glCompileShader(vertex);

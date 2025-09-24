@@ -25,13 +25,18 @@ vec3 cameraUp;
 int main(int argc, char *argv[]){
    
     cameraPosition = vec3_create(0.0f, 0.0f, 0.0f);
-    cameraTarget = vec3_create(0.0f, 0.0f, 0.0f);
+    cameraTarget = vec3_create(0.0f, 0.0f, 1.0f);
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
     
     glfwInit();
     GLFWwindow* window = createWindow(1920, 1080, "eath moon");
     se_init_opengl();
 
+    Shader shader;
+    shader.vertexFileName = "colorful.vs";
+    shader.fragmentFileName = "colorful.fs";
+    initShader(&shader);
+    
     unsigned int earthTexture, moonTexture;
     glGenTextures(1, &earthTexture);
     glBindTexture(GL_TEXTURE_2D, earthTexture);
@@ -66,10 +71,6 @@ int main(int argc, char *argv[]){
     }
     stbi_image_free(data);
 
-    Shader shader;
-    shader.vertexFileName = "colorful.vs";
-    shader.fragmentFileName = "colorful.fs";
-    initShader(&shader);
 
     vec3 white = vec3_create(1.0f, 1.0f, 1.0f);
     shape* earth = generate_sphere(white , 200, 200);
@@ -112,11 +113,10 @@ int main(int argc, char *argv[]){
         mat4 model = mat4_identity();
         scale_xyz(&model, 0.1f, 0.1f, 0.1f);
         
-        vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        //vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
+        //rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
-        mat4 view = mat4_identity();
-        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
+        mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
     
         mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
     
@@ -127,7 +127,9 @@ int main(int argc, char *argv[]){
         int projectionLocation = glGetUniformLocation(shader.ID, "projection");
         glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);
 
-        vec3 lightPosition = vec3_create(0.0f, 0.0f, 0.0f);
+        vec3 lightPosition = vec3_create(20.0f, 0.0f, 12.0f);
+        vec3 rotation_axis = vec3_create(0.0f, 1.0f, 0.0f);
+        rotate_vec3(&lightPosition, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
         setVec3(&shader, "lightPos", lightPosition);
 
 
@@ -144,9 +146,6 @@ int main(int argc, char *argv[]){
         rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
         rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
-        view = mat4_identity();
-        translate_xyz(&view, 0.0f, 0.0f, -3.0f);
-    
         projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
     
         modelLocation = glGetUniformLocation(shader.ID, "model");
@@ -182,7 +181,6 @@ void processInput(GLFWwindow* window){
         cameraPosition.x -= cameraspeed;
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPosition.x += cameraspeed;
-
 
 }
 
