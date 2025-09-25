@@ -129,7 +129,12 @@ int main(int argc, char *argv[]){
 
         vec3 lightPosition = vec3_create(20.0f, 0.0f, 12.0f);
         vec3 rotation_axis = vec3_create(0.0f, 1.0f, 0.0f);
-        rotate_vec3(&lightPosition, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        mat4 light_rotation = mat4_rotate((float)glfwGetTime() * radians(55.0f), &rotation_axis);
+        vec4 lightPositionVec4 = vec4_create(lightPosition.x, lightPosition.y, lightPosition.z, 1.0f);
+        lightPositionVec4 = mat4_mul_vec4(light_rotation, lightPositionVec4);
+        lightPosition.x = lightPositionVec4.x;
+        lightPosition.y = lightPositionVec4.y;
+        lightPosition.z = lightPositionVec4.z;
         setVec3(&shader, "lightPos", lightPosition);
 
 
