@@ -186,6 +186,23 @@ vec4 vec4_normalize(vec4 v) {
     return norm;
 }
 
+vec4 vec3_to_vec4(vec3 v) {
+    vec4 result;
+    result.x = v.x;
+    result.y = v.y;
+    result.z = v.z;
+    result.w = 1.0f;
+    return result;
+}
+
+vec3 vec4_to_vec3(vec4 v) {
+    vec3 result;
+    result.x = v.x;
+    result.y = v.y;
+    result.z = v.z;
+    return result;
+}
+
 mat4 mat4_translate(vec3* v){
     mat4 t = mat4_identity();
     t.m[3] = v->x;
@@ -260,6 +277,7 @@ vec4 mat4_mul_vec4(mat4 m, vec4 v){
     result.w = m.m[12] * v.x + m.m[13] * v.y + m.m[14] * v.z + m.m[15] * v.w;
     return result;
 }
+
 
 mat4 mat4_mul_mat4(mat4 a, mat4 b) {
     mat4 R;
