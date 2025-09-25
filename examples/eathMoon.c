@@ -151,6 +151,7 @@ int main(int argc, char *argv[]){
         rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
         projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
+
     
         modelLocation = glGetUniformLocation(shader.ID, "model");
         glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
@@ -185,7 +186,6 @@ void processInput(GLFWwindow* window){
         cameraPosition.x -= cameraspeed;
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPosition.x += cameraspeed;
-
 }
 
 

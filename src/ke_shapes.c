@@ -44,17 +44,16 @@ shape* generate_triangle(vec3 color){
     return triangle;
 }
 
-//TODO: fix this (normals)
 shape* generate_square(vec3 color){
 
     int vertex_count = 4;
     int index_count = 6;
 
     float square_vertices[] = {
-        -1.0f, -1.0f, 0, color.x, color.y, color.z,  0.0f,  0.0f,
-         1.0f, -1.0f, 0, color.x, color.y, color.z,  1.0f,  0.0f,
-         1.0f,  1.0f, 0, color.x, color.y, color.z,  1.0f,  1.0f,
-        -1.0f,  1.0f, 0, color.x, color.y, color.z,  0.0f,  1.0f
+        -1.0f, -1.0f, 0, color.x, color.y, color.z,  0.0f,  0.0f, 0.0f, 0.0f, 1.0f,
+         1.0f, -1.0f, 0, color.x, color.y, color.z,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f,
+         1.0f,  1.0f, 0, color.x, color.y, color.z,  1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+        -1.0f,  1.0f, 0, color.x, color.y, color.z,  0.0f,  1.0f, 0.0f, 0.0f, 1.0f
     };
    
     int square_indices[] = {
@@ -194,8 +193,8 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
     sphere->vertices[14] = color.x;
     sphere->vertices[15] = color.y;
     sphere->vertices[16] = color.z;
-    sphere->vertices[17] = 1.0;
-    sphere->vertices[18] = 1.0;
+    sphere->vertices[17] = 0.0;
+    sphere->vertices[18] = 0.0;
     sphere->vertices[19] = 0.0f;
     sphere->vertices[20] = -1.0f;
     sphere->vertices[21] = 0.0f;
