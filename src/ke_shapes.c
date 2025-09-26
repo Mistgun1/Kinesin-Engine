@@ -209,7 +209,7 @@ shape* generate_sphere(vec3 color, int slices, int stacks){
             sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 3] = color.x;
             sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 4] = color.y;
             sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 5] = color.z;
-            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 6] = cosf(j * PI / slices) * 0.5f + 0.5f ;
+            sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 6] = cosf((j * PI / slices) + PI) * 0.5f + 0.5f ;
             sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 7] = (float)i / stacks;
             vec3 normal = vec3_create(cosf(j * 2 * PI / slices), disc_level, sinf(j * 2 * PI / slices));
             sphere->vertices[((i - 1) * slices + 2 + j) * 11 + 8] = normal.x;

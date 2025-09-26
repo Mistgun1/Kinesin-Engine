@@ -1,6 +1,6 @@
 #ifndef SHADER_H
 #define SHADER_H
-#define SHADER_PATH "../shaders/"
+#define SHADER_PATH "../resources/shaders/"
 
 #include <stdbool.h>
 #include "ke_math.h"

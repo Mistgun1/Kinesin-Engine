@@ -9,7 +9,7 @@
 #include "ke_shader.h"
 #include "ke_shapes.h"
 #include "ke_transform.h"
-#include "stb_image.h"
+#include "ke_texture.h"
 
 
 void processInput(GLFWwindow* window);
@@ -30,6 +30,7 @@ int main(int argc, char *argv[]){
     
     glfwInit();
     GLFWwindow* window = createWindow(1920, 1080, "eath moon");
+    
     se_init_opengl();
 
     Shader shader;
@@ -37,41 +38,10 @@ int main(int argc, char *argv[]){
     shader.fragmentFileName = "colorful.fs";
     initShader(&shader);
     
-    unsigned int earthTexture, moonTexture;
-    glGenTextures(1, &earthTexture);
-    glBindTexture(GL_TEXTURE_2D, earthTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load("../resources/textures/earth.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("Failed to load earth texture\n");
-    }
-    stbi_image_free(data); 
-
-    glGenTextures(1, &moonTexture);
-    glBindTexture(GL_TEXTURE_2D, moonTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    data = stbi_load("../resources/textures/moon.jpg", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        printf("Failed to load moon texture\n");
-    }
-    stbi_image_free(data);
-
-
+    unsigned int earthTexture;
+    load_jpg_texture(&earthTexture, "earth.jpg", false);
+    //unsigned int moonTexture = load_texture("moon.jpg", true);
+    
     vec3 white = vec3_create(1.0f, 1.0f, 1.0f);
     shape* earth = generate_sphere(white , 200, 200);
     shape* moon = generate_sphere(white , 60, 60);
@@ -106,7 +76,7 @@ int main(int argc, char *argv[]){
         processInput(window);
         glClearColor(0.05f, 0.05f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glActiveTexture(GL_TEXTURE0);
+
         glBindTexture(GL_TEXTURE_2D, earthTexture);
         useShader(&shader);
         
@@ -135,14 +105,12 @@ int main(int argc, char *argv[]){
         lightPosition = vec4_to_vec3(lightPositionVec4);
         setVec3(&shader, "lightPos", lightPosition);
 
-
-
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
         
         glBindVertexArray(0);
-        glBindTexture(GL_TEXTURE_2D, moonTexture);
-        useShader(&shader);
+        //glBindTexture(GL_TEXTURE_2D, moonTexture);
+        //useShader(&shader);
         
         model = mat4_identity();
         scale_xyz(&model, 0.1f, 0.1f, 0.1f);
@@ -152,7 +120,6 @@ int main(int argc, char *argv[]){
 
         projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
 
-    
         modelLocation = glGetUniformLocation(shader.ID, "model");
         glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
         viewLocation = glGetUniformLocation(shader.ID, "view");
