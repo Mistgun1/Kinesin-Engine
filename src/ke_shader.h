@@ -20,5 +20,6 @@ void setInt(Shader *shader, char *name, int value);
 void setFloat(Shader *shader, char *name, float value);
 void setVec2(Shader *shader, char *name, vec2 value);
 void setVec3(Shader *shader, char *name, vec3 value);
+void setMat4(Shader *shader, char *name, mat4 value);
 
 #endif

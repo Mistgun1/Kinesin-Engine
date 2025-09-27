@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
 #include "ke_math.h"
-#include "ke_physics.h"
 #include "ke_window.h"
 #include "se_gl.h"
 #include "ke_camera.h"
@@ -82,9 +81,6 @@ int main(int argc, char *argv[]){
         
         mat4 model = mat4_identity();
         scale_xyz(&model, 0.1f, 0.1f, 0.1f);
-        
-        //vec3 rotation_axis = vec3_create(0.5f, 1.0f, 0.0f);
-        //rotate_vec3(&model, (float)glfwGetTime() * radians(55.0f), &rotation_axis);
 
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
     
@@ -120,14 +116,11 @@ int main(int argc, char *argv[]){
 
         projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f); 
 
-        modelLocation = glGetUniformLocation(shader.ID, "model");
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, model.m);
-        viewLocation = glGetUniformLocation(shader.ID, "view");
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.m);
-        projectionLocation = glGetUniformLocation(shader.ID, "projection");
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, projection.m);    
-        glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
+        setMat4(&shader, "model", model);
+        setMat4(&shader, "view", view);
+        setMat4(&shader, "projection", projection);
         
+        glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
         glfwSwapBuffers(window);
         glfwPollEvents();   
     }

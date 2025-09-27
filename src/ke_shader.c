@@ -90,3 +90,7 @@ void setVec2(Shader *shader, char *name, vec2 value){
 void setVec3(Shader *shader, char *name, vec3 value){
     glUniform3f(glGetUniformLocation(shader->ID, name), value.x, value.y, value.z);
 }
+
+void setMat4(Shader *shader, char *name, mat4 value){
+    glUniformMatrix4fv(glGetUniformLocation(shader->ID, name), 1, GL_FALSE, value.m);
+}
