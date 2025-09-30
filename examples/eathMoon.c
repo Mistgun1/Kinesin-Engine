@@ -111,10 +111,12 @@ int main(int argc, char *argv[]){
         glBindVertexArray(0);
 
         mat4 moon_model = mat4_identity();
-        translate_xyz(&moon_model , 20.0f, 1.0f, 10.0f);
         scale_xyz(&moon_model , 0.05f, 0.05f, 0.05f);
-        rotate_xyz(&moon_model , (float)glfwGetTime() * radians(100.0f), 0.0f, 1.0f, 0.0f);
+        translate_xyz(&view, 30.0f, 0.0f, 20.0f);
+        rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 0.0f);
+
         setMat4(&shader, "model", moon_model);
+        setMat4(&shader, "view", view);
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
@@ -138,16 +140,12 @@ void processInput(GLFWwindow* window){
         glfwSetWindowShouldClose(window, true);
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPosition.z += cameraspeed;
-        cameraTarget.z += cameraspeed;
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         cameraPosition.z -= cameraspeed;
-        cameraTarget.z -= cameraspeed;
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         cameraPosition.x -= cameraspeed;
-        cameraTarget.x -= cameraspeed;
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         cameraPosition.x += cameraspeed;
-        cameraTarget.x += cameraspeed;
 }
 
 
