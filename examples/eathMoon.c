@@ -63,18 +63,6 @@ int main(int argc, char *argv[]){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * moon->index_count, moon->indices, GL_STATIC_DRAW);
 
-    //unsigned int MVBO, MVAO, MEBO;
-    //glGenVertexArrays(1, &MVAO);
-    //glBindVertexArray(MVAO);
-
-    //glGenBuffers(1, &MVBO);
-    //glBindBuffer(GL_ARRAY_BUFFER, MVBO);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(float) * moon->vertex_count *11, moon->vertices, GL_STATIC_DRAW);
-
-    //glGenBuffers(1, &MEBO);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MEBO);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * moon->index_count, moon->indices, GL_STATIC_DRAW);
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     
@@ -120,7 +108,6 @@ int main(int argc, char *argv[]){
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
         
         glBindTexture(GL_TEXTURE_2D, moonTexture);
-        useShader(&shader);
         glBindVertexArray(0);
 
         mat4 moon_model = mat4_identity();
@@ -128,9 +115,7 @@ int main(int argc, char *argv[]){
         scale_xyz(&moon_model , 0.05f, 0.05f, 0.05f);
         rotate_xyz(&moon_model , (float)glfwGetTime() * radians(100.0f), 0.0f, 1.0f, 0.0f);
         setMat4(&shader, "model", moon_model);
-        setMat4(&shader, "view", view); 
-        setMat4(&shader, "projection", projection);
-        
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
 
