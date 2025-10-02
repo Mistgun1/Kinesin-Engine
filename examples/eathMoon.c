@@ -86,11 +86,12 @@ int main(int argc, char *argv[]){
         useShader(&shader);
         
         mat4 model = mat4_identity();
-        //scale_xyz(&model, 0.1f, 0.1f, 0.1f);
+        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
 
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
-    
-        mat4 projection = mat4_orthographic(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
+   
+        mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f);
+        //mat4 projection = mat4_orthographic(-100.0f, 100.0f, -100.0f, 100.0f, 0.1f, 100.0f);
     
         setMat4(&shader, "model", model);
         setMat4(&shader, "view", view);
@@ -112,13 +113,13 @@ int main(int argc, char *argv[]){
 
         mat4 moon_model = mat4_identity();
         scale_xyz(&moon_model , 0.05f, 0.05f, 0.05f);
-        translate_xyz(&moon_model, 2.0f, 0.0f, 0.0f);
+        translate_xyz(&moon_model, 0.0f, 0.0f, 0.0f);
         rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 0.0f);
 
         setMat4(&shader, "model", moon_model);
 
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();   

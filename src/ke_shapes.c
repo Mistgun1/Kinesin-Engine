@@ -123,7 +123,6 @@ shape* generate_disc(vec3 color, int slices){
 }
 
 
-
 // TODO: fix this (texture coordinates and normals)
 shape* generate_cube(vec3 color){
 
