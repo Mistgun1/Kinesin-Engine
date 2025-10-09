@@ -15,6 +15,7 @@ mat4 mat4_perspective(float fov, float aspectRatio, float near, float far){
     perspective.m[10] = -(far + near) / (far - near);
     perspective.m[11] = -1.0f;
     perspective.m[14] = -(2.0f * far * near) / (far - near);
+    perspective.m[15] = 0.0f;
     return perspective;
 }
 
@@ -27,7 +28,6 @@ mat4 mat4_orthographic(float left, float right, float bottom, float top, float n
     orthographic.m[7] = -(top + bottom) / (top - bottom);
     orthographic.m[10] = -2.0f / (far - near);
     orthographic.m[11] = -(far + near) / (far - near);
-    orthographic.m[14] = 1.0f;
     return orthographic;
 }
 

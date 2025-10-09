@@ -22,7 +22,7 @@ vec3 cameraUp;
 
 int main(int argc, char *argv[]){
    
-    cameraPosition = vec3_create(0.0f, 0.0f, -1.0f);
+    cameraPosition = vec3_create(0.0f, 0.0f, -10.0f);
     cameraTarget = vec3_create(0.0f, 0.0f, 0.0f);
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
     
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]){
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
    
         mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f);
-        //mat4 projection = mat4_orthographic(-100.0f, 100.0f, -100.0f, 100.0f, 0.1f, 100.0f);
+        //mat4 projection = mat4_orthographic(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
     
         setMat4(&shader, "model", model);
         setMat4(&shader, "view", view);
