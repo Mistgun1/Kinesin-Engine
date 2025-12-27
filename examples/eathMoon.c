@@ -9,7 +9,7 @@
 #include "ke_shapes.h"
 #include "ke_transform.h"
 #include "ke_texture.h"
-
+#include "ke_render.h"
 
 void processInput(GLFWwindow* window);
 
@@ -22,8 +22,8 @@ vec3 cameraUp;
 
 int main(int argc, char *argv[]){
    
-    cameraPosition = vec3_create(0.0f, 0.0f, -10.0f);
-    cameraTarget = vec3_create(0.0f, 0.0f, 0.0f);
+    cameraPosition = vec3_create(0.0f, 0.0f, 0.0f);
+    cameraTarget = vec3_create(0.0f, 0.0f, -1.0f);
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
     
     glfwInit();
@@ -43,41 +43,13 @@ int main(int argc, char *argv[]){
     shape* earth = generate_sphere(white , 200, 200);
     shape* moon = generate_sphere(white , 200, 200);
 
-    unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * earth->vertex_count *11, earth->vertices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * earth->index_count, earth->indices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * moon->vertex_count *11, moon->vertices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * moon->index_count, moon->indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
-    glEnableVertexAttribArray(3);
+    render_mesh(earth);
+    render_mesh(moon);
 
     glEnable(GL_DEPTH_TEST);
 
     while(!glfwWindowShouldClose(window)){
+        
         processInput(window);
         glClearColor(0.05f, 0.05f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -86,13 +58,18 @@ int main(int argc, char *argv[]){
         useShader(&shader);
         
         mat4 model = mat4_identity();
-        scale_xyz(&model, 0.1f, 0.1f, 0.1f);
-
+        
+        translate_xyz(&model, 0.0f, 0.0f, 10.0f);
+        scale_xyz(&model, .1f, .1f, 0.1f);
+        
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
    
         mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f);
         //mat4 projection = mat4_orthographic(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
-    
+
+        model = mat4_transpose(model);
+        projection = mat4_transpose(projection);
+        view = mat4_transpose(view);
         setMat4(&shader, "model", model);
         setMat4(&shader, "view", view);
         setMat4(&shader, "projection", projection);
@@ -105,28 +82,36 @@ int main(int argc, char *argv[]){
         lightPosition = vec4_to_vec3(lightPositionVec4);
         setVec3(&shader, "lightPos", lightPosition);
 
-        glBindVertexArray(VAO);
+        glBindVertexArray(earth->VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
-        
+     
         glBindTexture(GL_TEXTURE_2D, moonTexture);
-        glBindVertexArray(0);
+        useShader(&shader);
 
         mat4 moon_model = mat4_identity();
         scale_xyz(&moon_model , 0.05f, 0.05f, 0.05f);
-        translate_xyz(&moon_model, 0.0f, 0.0f, 0.0f);
+        translate_xyz(&moon_model, 0.0f, 0.0f, 2.0f);
         rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 0.0f);
+        //rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 10.0f);
 
+        moon_model = mat4_transpose(moon_model);
+        
         setMat4(&shader, "model", moon_model);
+        setMat4(&shader, "view", view);
+        setMat4(&shader, "projection", projection);
 
-        glBindVertexArray(VAO);
-        //glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
+
+        glBindVertexArray(moon->VAO);
+        glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();   
     }
     
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &earth->VAO);
+    glDeleteBuffers(1, &earth->VBO);
+    glDeleteVertexArrays(1, &moon->VAO);
+    glDeleteBuffers(1, &moon->VBO);
     glfwTerminate();
     return 0;
 

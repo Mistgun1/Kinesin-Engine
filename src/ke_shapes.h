@@ -22,6 +22,9 @@ typedef struct shape{
     int* indices;
     int vertex_count;
     int index_count;
+    unsigned int VBO; 
+    unsigned int VAO;
+    unsigned int EBO;
 }shape;
 
 // all shapes are drawn in a normalized space between -1 and 1

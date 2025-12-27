@@ -44,6 +44,10 @@ void scale_vec3(mat4 *m, vec3 *v){
 }
 
 void scale_xyz(mat4 *m, float x, float y, float z){
+    //m->m[0] *= x;
+    //m->m[5] *= y;
+    //m->m[10] *= z;
+
     vec3 v = {x, y, z};
     mat4 s = mat4_scale(&v);
     *m = mat4_mul_mat4(*m, s);

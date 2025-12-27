@@ -75,6 +75,7 @@ mat4 mat4_scale(vec3* v);
 vec4 mat4_mul_vec4(mat4 m, vec4 v);
 vec3 mat4_mul_vec3(mat4 m, vec3 v);
 mat4 mat4_mul_mat4(mat4 a, mat4 b);
+mat4 mat4_transpose(mat4 m);
 
 mat4 mat4_mul(int n, ...);
 

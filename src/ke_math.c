@@ -278,7 +278,6 @@ vec4 mat4_mul_vec4(mat4 m, vec4 v){
     return result;
 }
 
-
 mat4 mat4_mul_mat4(mat4 a, mat4 b) {
     mat4 R;
     for(int row=0; row<4; row++){
@@ -292,6 +291,17 @@ mat4 mat4_mul_mat4(mat4 a, mat4 b) {
     }
     return R;
 }
+
+mat4 mat4_transpose(mat4 m){
+    mat4 t;
+    for(int row=0; row<4; row++){
+        for(int col=0; col<4; col++){
+            t.m[row + 4*col] = m.m[col + 4*row];
+        }
+    }
+    return t;
+}
+
 
 mat4 mat4_mul(int n, ...){
     va_list args;
