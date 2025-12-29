@@ -20,5 +20,7 @@ void main()
     ourColor = aColor;
     TexCoord = aTexCoord;
     FragPos = vec3(model * vec4(aPos, 1.0));
+    //this is a costly operation only when needed
+    //Normal = mat3(transpose(inverse(model))) * aNormal;
     Normal = aNormal;
 }

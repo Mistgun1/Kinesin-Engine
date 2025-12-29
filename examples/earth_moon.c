@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     cameraPosition = vec3_create(0.0f, 0.0f, 0.0f);
     cameraTarget = vec3_create(0.0f, 0.0f, -1.0f);
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
-    
+
     glfwInit();
     GLFWwindow* window = createWindow(1920, 1080, "eath moon");
     
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
     shader.vertexFileName = "colorful.vs";
     shader.fragmentFileName = "colorful.fs";
     initShader(&shader);
-    
+
     unsigned int earthTexture = load_jpg_texture("earth.jpg", false);
     unsigned int moonTexture = load_jpg_texture("moon.jpg", true);
     
@@ -46,6 +46,7 @@ int main(int argc, char *argv[]){
     render_mesh(earth);
     render_mesh(moon);
 
+    
     glEnable(GL_DEPTH_TEST);
 
     while(!glfwWindowShouldClose(window)){
@@ -73,6 +74,9 @@ int main(int argc, char *argv[]){
         setMat4(&shader, "model", model);
         setMat4(&shader, "view", view);
         setMat4(&shader, "projection", projection);
+        
+        //for specular lighting
+        setVec3(&shader, "viewPos", cameraPosition);
 
         vec3 lightPosition = vec3_create(20.0f, 0.0f, 12.0f);
         vec3 rotation_axis = vec3_create(0.0f, 1.0f, 0.0f);
@@ -81,6 +85,15 @@ int main(int argc, char *argv[]){
         lightPositionVec4 = mat4_mul_vec4(light_rotation, lightPositionVec4);
         lightPosition = vec4_to_vec3(lightPositionVec4);
         setVec3(&shader, "lightPos", lightPosition);
+
+        vec3 ambient = vec3_create(0.2f, 0.2f, 0.2f);
+        vec3 diffuse = vec3_create(0.8f, 0.8f, 0.8f);
+        vec3 specular = vec3_create(0.5f, 0.5f, 0.5f);
+
+        setVec3(&shader, "material.ambient", ambient);
+        setVec3(&shader, "material.diffuse", diffuse);
+        setVec3(&shader, "material.specular", specular);
+        setFloat(&shader, "material.shininess", 32.0f);
 
         glBindVertexArray(earth->VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);
