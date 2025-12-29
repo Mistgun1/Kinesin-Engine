@@ -76,7 +76,7 @@ void setBool(Shader *shader, char *name, bool value){
 }
 
 void setFloat(Shader *shader, char *name, float value){
-    glUniform1i(glGetUniformLocation(shader->ID, name), value);
+    glUniform1f(glGetUniformLocation(shader->ID, name), value);
 }
 
 void setInt(Shader *shader, char *name, int value){

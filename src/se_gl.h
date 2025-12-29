@@ -59,6 +59,7 @@ typedef void (APIENTRY * PFNGLUNIFORM1IV)(GLint location, GLsizei count, const G
 typedef void (APIENTRY * PFNGLUNIFORM2IV)(GLint location, GLsizei count, const GLint *value);
 typedef void (APIENTRY * PFNGLUNIFORM3IV)(GLint location, GLsizei count, const GLint *value);
 typedef void (APIENTRY * PFNGLUNIFORM4IV)(GLint location, GLsizei count, const GLint *value);
+typedef void (APIENTRY * PFNGLUNIFORM1F)(GLint location, GLfloat v0);
 typedef void (APIENTRY * PFNGLUNIFORM2F)(GLint location, GLfloat v0, GLfloat v1);
 typedef void (APIENTRY * PFNGLUNIFORM3F)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
 typedef void (APIENTRY * PFNGLUNIFORM4F)(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
@@ -115,6 +116,7 @@ extern PFNGLUNIFORM1IV glUniform1iv;
 extern PFNGLUNIFORM2IV glUniform2iv;
 extern PFNGLUNIFORM3IV glUniform3iv;
 extern PFNGLUNIFORM4IV glUniform4iv;
+extern PFNGLUNIFORM1F glUniform1f;
 extern PFNGLUNIFORM2F glUniform2f;
 extern PFNGLUNIFORM3F glUniform3f;
 extern PFNGLUNIFORM4F glUniform4f;

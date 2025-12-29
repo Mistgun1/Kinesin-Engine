@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
 
     glfwInit();
-    GLFWwindow* window = createWindow(1920, 1080, "eath moon");
+    GLFWwindow* window = createWindow(1920, 1080, "earth moon");
     
     se_init_opengl();
 
@@ -84,15 +84,15 @@ int main(int argc, char *argv[]){
         vec4 lightPositionVec4 = vec3_to_vec4(lightPosition);
         lightPositionVec4 = mat4_mul_vec4(light_rotation, lightPositionVec4);
         lightPosition = vec4_to_vec3(lightPositionVec4);
-        setVec3(&shader, "lightPos", lightPosition);
-
-        vec3 ambient = vec3_create(0.2f, 0.2f, 0.2f);
-        vec3 diffuse = vec3_create(0.8f, 0.8f, 0.8f);
-        vec3 specular = vec3_create(0.5f, 0.5f, 0.5f);
-
-        setVec3(&shader, "material.ambient", ambient);
-        setVec3(&shader, "material.diffuse", diffuse);
-        setVec3(&shader, "material.specular", specular);
+        setVec3(&shader, "light.position", lightPosition);
+        setVec3(&shader, "light.ambient", vec3_create(0.2f, 0.2f, 0.2f));
+        setVec3(&shader, "light.diffuse", vec3_create(0.5f, 0.5f, 0.5f));
+        setVec3(&shader, "light.specular", vec3_create(1.f, 1.f, 1.f));
+        setVec3(&shader, "light.color", vec3_create(1.f, 1.f, 1.f));
+        
+        setVec3(&shader, "material.ambient", vec3_create(0.7f, 0.7f, 0.7f));
+        setVec3(&shader, "material.diffuse", vec3_create(0.5f, 0.5f, 0.6f));
+        setVec3(&shader, "material.specular", vec3_create(0.5f, 0.5f, 0.5f));
         setFloat(&shader, "material.shininess", 32.0f);
 
         glBindVertexArray(earth->VAO);
@@ -105,14 +105,12 @@ int main(int argc, char *argv[]){
         scale_xyz(&moon_model , 0.05f, 0.05f, 0.05f);
         translate_xyz(&moon_model, 0.0f, 0.0f, 2.0f);
         rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 0.0f);
-        //rotate_xyz(&moon_model , (float)glfwGetTime() * radians(40.0f), 0.0f, 1.0f, 10.0f);
 
         moon_model = mat4_transpose(moon_model);
         
         setMat4(&shader, "model", moon_model);
         setMat4(&shader, "view", view);
         setMat4(&shader, "projection", projection);
-
 
         glBindVertexArray(moon->VAO);
         glDrawElements(GL_TRIANGLES, moon->index_count, GL_UNSIGNED_INT, 0);
