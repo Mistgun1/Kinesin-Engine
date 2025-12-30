@@ -9,7 +9,7 @@
 #include "ke_shapes.h"
 #include "ke_transform.h"
 #include "ke_texture.h"
-#include "ke_render.h"
+#include "ke_renderer.h"
 
 void processInput(GLFWwindow* window);
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
         setVec3(&shader, "material.ambient", vec3_create(0.7f, 0.7f, 0.7f));
         setVec3(&shader, "material.diffuse", vec3_create(0.5f, 0.5f, 0.6f));
         setVec3(&shader, "material.specular", vec3_create(0.5f, 0.5f, 0.5f));
-        setFloat(&shader, "material.shininess", 32.0f);
+        setFloat(&shader, "material.shininess", 4.0f);
 
         glBindVertexArray(earth->VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);

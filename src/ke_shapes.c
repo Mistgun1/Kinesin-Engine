@@ -130,23 +130,46 @@ shape* generate_cube(vec3 color){
     int index_count = 36;
 
     float cube_vertices[] = {
-        -1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  0.0f,
-         1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  0.0f,
-         1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f,
-        -1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f,
-        -1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f,
-         1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f,
-         1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  1.0f,
-        -1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  1.0f
+     //  position          , color                    , texcoord    , normal
+        -1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  0.0f,  0.0f,  0.0f, -1.0f,
+         1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  0.0f,  0.0f,  0.0f, -1.0f,
+         1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f,  0.0f,  0.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f,  0.0f,  0.0f, -1.0f,
+       
+        -1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+        
+        -1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f, -1.0f,  0.0f,  0.0f,
+        -1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+         1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+         1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f,  1.0f,  0.0f,  0.0f,
+         1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+        -1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f, -1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f,  0.0f, -1.0f,  0.0f,
+         1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+        -1.0f, -1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f,  0.0f, -1.0f,  0.0f,
+
+        -1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  1.0f, -1.0f, color.x, color.y, color.z,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        -1.0f,  1.0f,  1.0f, color.x, color.y, color.z,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
     };
 
     int cube_indices[] = {
-        0, 1 , 3,  1, 2 , 3,
-        1, 5 , 2,  5, 6 , 2,
-        5, 4 , 6,  4, 7 , 6,
-        4, 7 , 3,  4, 0 , 3,
-        3, 7 , 6,  6, 3 , 2,
-        1, 0 , 5,  4, 0 , 5
+       0, 1, 2,  2, 3, 0,
+       4, 5, 6,  6, 7, 4,
+       8, 9,10, 10,11, 8,
+       12,13,14,14,15,12,
+       16,17,18,18,19,16,
+       20,21,22,22,23,20
     };
 
     shape* cube = generate_shape(vertex_count, index_count);

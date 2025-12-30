@@ -1,5 +1,5 @@
-#ifndef KE_RENDER_H
-#define KE_RENDER_H
+#ifndef KE_RENDERER_H
+#define KE_RENDERER_H
 
 #include <stdio.h>
 #include "se_gl.h"
