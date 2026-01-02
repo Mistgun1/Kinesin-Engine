@@ -8,7 +8,8 @@
 void render_mesh(shape* mesh);
 
 // lighting
-void default_light_material(Shader *shader);
+void default_light(Shader *shader);
+void default_material(Shader *shader);
 void set_up_lighting(Shader *shader,vec3 position, vec3 ambient, vec3 diffuse, vec3 specular, vec3 color);
 void set_up_material(Shader *shader, vec3 ambient, vec3 diffuse, vec3 specular, float shininess);
 

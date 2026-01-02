@@ -8,7 +8,7 @@
 #include "ke_renderer.h"
 #include "ke_camera.h"
 #include "ke_transform.h"
-
+#include "ke_texture.h"
 
 void processInput(GLFWwindow* window);
 
@@ -32,6 +32,7 @@ int main(int argc, char **argv){
     shader.fragmentFileName = "colorful.fs";
     initShader(&shader);
 
+    //unsigned int earth_texture = load_jpg_texture("earth.jpg", true);
     vec3 cubeColor = vec3_create(1.0f, 0.0f, 0.0f);
     shape* cube = generate_cube(cubeColor);
     shape* floor = generate_square(vec3_create(0.5f, 0.5f, 0.5f));
@@ -47,15 +48,15 @@ int main(int argc, char **argv){
 
         glClearColor(0.7f, 0.8f, 0.9f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        
+        //glBindTexture(GL_TEXTURE_2D, earth_texture);
         useShader(&shader);
         mat4 model = mat4_identity();
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
         mat4 projection = mat4_perspective(45.0f, 800.0f/600.0f, 0.1f, 100.0f);
        
         translate_xyz(&model, 0.0f, 0.0f, 10.0f);
-        scale_xyz(&model, 0.0f, 4.0f, 0.0f);
-
+        //scale_xyz(&model, 0.0f, 4.0f, 0.0f);
 
         model = mat4_transpose(model);
         view = mat4_transpose(view);
@@ -67,8 +68,10 @@ int main(int argc, char **argv){
 
 
         setVec3(&shader, "viewPos", cameraPosition);
-        default_light_material(&shader);
+        default_light(&shader);
 
+        setInt(&shader, "material.diffuse", 0);
+        
         glBindVertexArray(cube->VAO);
         glDrawElements(GL_TRIANGLES, cube->index_count, GL_UNSIGNED_INT, 0);
 
@@ -76,6 +79,9 @@ int main(int argc, char **argv){
         glfwPollEvents();
 
     }
+    glDeleteVertexArrays(1, &cube->VAO);
+    glDeleteBuffers(1, &cube->VBO);
+    glfwTerminate();
     return 0;
 }
 

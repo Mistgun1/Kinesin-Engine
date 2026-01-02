@@ -28,20 +28,19 @@ void render_mesh(shape* mesh){
 }
 
 //lighting
-void default_light_material(Shader *shader){
+void default_light(Shader *shader){
     setVec3(shader, "light.position", vec3_create(0.0f, 10.0f, -1.0f));
     setVec3(shader, "light.ambient", vec3_create(1.f, 1.f, 1.f));
     setVec3(shader, "light.diffuse", vec3_create(0.9f, 0.9f, 0.9f));
     setVec3(shader, "light.specular", vec3_create(1.0f, 1.0f, 1.0f));
     setVec3(shader, "light.color", vec3_create(1.0f, 1.0f, 1.0f));
-    
+}
+void default_material(Shader *shader){
     setVec3(shader, "material.ambient", vec3_create(0.2f, 0.2f, 0.2f));
     setVec3(shader, "material.diffuse", vec3_create(0.9f, 0.9f, 0.9f));
     setVec3(shader, "material.specular", vec3_create(1.0f, 1.0f, 1.0f));
     setFloat(shader, "material.shininess", 0.0f);
-
 }
-
 
 void set_up_lighting(Shader *shader,vec3 position, vec3 ambient, vec3 diffuse, vec3 specular, vec3 color){
     setVec3(shader, "light.position", position);
