@@ -144,12 +144,12 @@ void processInput(GLFWwindow* window){
         cameraTarget.z -= cameraspeed;
     }
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-        cameraPosition.x -= cameraspeed;
-        cameraTarget.x -= cameraspeed;
-    }
-    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
         cameraPosition.x += cameraspeed;
         cameraTarget.x += cameraspeed;
+    }
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+        cameraPosition.x -= cameraspeed;
+        cameraTarget.x -= cameraspeed;
     }
 }
 

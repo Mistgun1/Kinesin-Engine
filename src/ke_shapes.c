@@ -1,8 +1,4 @@
 #include "ke_shapes.h"
-#include "ke_math.h"
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
 
 shape* generate_shape(int vertex_count, int index_count){
     shape* result_shape;
@@ -126,7 +122,7 @@ shape* generate_disc(vec3 color, int slices){
 // TODO: fix this (texture coordinates and normals)
 shape* generate_cube(vec3 color){
 
-    int vertex_count = 8;
+    int vertex_count = 24;
     int index_count = 36;
 
     float cube_vertices[] = {
@@ -174,7 +170,7 @@ shape* generate_cube(vec3 color){
 
     shape* cube = generate_shape(vertex_count, index_count);
 
-    for (int i = 0; i < vertex_count * 8; i++){
+    for (int i = 0; i < vertex_count * 11; i++){
         cube->vertices[i] = cube_vertices[i];
     }
    

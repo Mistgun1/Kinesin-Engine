@@ -7,6 +7,7 @@ struct Material {
     vec3 specular;
     float shininess;
 };
+
 uniform Material material;
 
 struct Light {
@@ -16,6 +17,7 @@ struct Light {
     vec3 diffuse;
     vec3 specular;
 };
+
 uniform Light light;
 
 in vec2 TexCoord;

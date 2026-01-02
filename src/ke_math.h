@@ -1,9 +1,10 @@
 #ifndef KE_MATH_H
 #define KE_MATH_H
 
-#include <stdlib.h>
-
 #define PI 3.14159265358979323846
+#define vec2(x, y) vec2_create(x, y)
+#define vec3(x, y, z) vec3_create(x, y, z)
+#define vec4(x, y, z, w) vec4_create(x, y, z, w)
 
 typedef struct vec2 {
     float x;

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include "ke_math.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #include <GLFW/glfw3.h>
 
 typedef struct Shader{

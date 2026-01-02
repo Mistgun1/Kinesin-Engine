@@ -1,6 +1,9 @@
 #ifndef KE_SHAPES_H
 #define KE_SHAPES_H
 
+#include <stdlib.h>
+#include <math.h>
+#include "ke_math.h"
 #include "ke_math.h"
 
 #define MAX_VERTICES 10000
