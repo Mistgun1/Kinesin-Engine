@@ -60,8 +60,9 @@ int main(int argc, char *argv[]){
         
         mat4 model = mat4_identity();
         
-        translate_xyz(&model, 0.0f, 0.0f, 10.0f);
+        translate_xyz(&model, 0.0f, 0.0f, 1.0f);
         scale_xyz(&model, .1f, .1f, 0.1f);
+        rotate_xyz(&model, (float)glfwGetTime() * radians(45.0f), 0.0f, 1.0f, 0.0f);
         
         mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
    
@@ -74,7 +75,7 @@ int main(int argc, char *argv[]){
         setMat4(&shader, "model", model);
         setMat4(&shader, "view", view);
         setMat4(&shader, "projection", projection);
-        
+       
         //for specular lighting
         setVec3(&shader, "viewPos", cameraPosition);
 
@@ -90,6 +91,9 @@ int main(int argc, char *argv[]){
         setVec3(&shader, "light.specular", vec3_create(1.f, 1.f, 1.f));
         setVec3(&shader, "light.color", vec3_create(1.f, 1.f, 1.f));
         
+        setMaterial(&shader,"Material");
+
+
         setVec3(&shader, "material.ambient", vec3_create(0.7f, 0.7f, 0.7f));
         setVec3(&shader, "material.diffuse", vec3_create(0.5f, 0.5f, 0.6f));
         setVec3(&shader, "material.specular", vec3_create(0.5f, 0.5f, 0.5f));

@@ -94,3 +94,17 @@ void setVec3(Shader *shader, char *name, vec3 value){
 void setMat4(Shader *shader, char *name, mat4 value){
     glUniformMatrix4fv(glGetUniformLocation(shader->ID, name), 1, GL_FALSE, value.m);
 }
+
+
+vec3 diffuse = vec3_create(1.0, 1.0, 1.0);
+vec3 sepcular = vec3_create(1.0, 1.0, 1.0);
+float shininess = 1.0;
+
+
+#define setMaterial(...)   vrg(setMaterial, __VA_ARGS__)
+#define setMaterial1(n)    setMaterialX(n, defaultMaterial)
+#define setMaterial2(n, m) setMaterialX(n, m)
+
+void setMaterialX(Shader *shader, Material material){
+
+}

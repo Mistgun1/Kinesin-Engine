@@ -36,8 +36,7 @@ void default_light(Shader *shader){
     setVec3(shader, "light.color", vec3_create(1.0f, 1.0f, 1.0f));
 }
 void default_material(Shader *shader){
-    setVec3(shader, "material.ambient", vec3_create(0.2f, 0.2f, 0.2f));
-    setVec3(shader, "material.diffuse", vec3_create(0.9f, 0.9f, 0.9f));
+    setInt(shader, "material.texture", 0);
     setVec3(shader, "material.specular", vec3_create(1.0f, 1.0f, 1.0f));
     setFloat(shader, "material.shininess", 0.0f);
 }
@@ -51,8 +50,7 @@ void set_up_lighting(Shader *shader,vec3 position, vec3 ambient, vec3 diffuse, v
 }
 
 void set_up_material(Shader *shader, vec3 ambient, vec3 diffuse, vec3 specular, float shininess){
-    setVec3(shader, "material.ambient", ambient);
-    setVec3(shader, "material.diffuse", diffuse);
+    setInt(shader, "material.texture", 0);
     setVec3(shader, "material.specular", specular);
     setFloat(shader, "material.shininess", shininess);
 }

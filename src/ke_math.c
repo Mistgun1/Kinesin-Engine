@@ -21,6 +21,8 @@ vec3 vec3_create(float x, float y, float z) {
     return v;
 }
 
+#define vec3_c(x, y, z) vec3 v; v.x = x; v.y = y; v.z = z; return v;
+
 vec4 vec4_create(float x, float y, float z, float w) {
     vec4 v;
     v.x = x;
@@ -29,6 +31,8 @@ vec4 vec4_create(float x, float y, float z, float w) {
     v.w = w;
     return v;
 }
+
+
 
 mat4 mat4_identity() {
     mat4 m = {1, 0, 0, 0,
