@@ -16,33 +16,19 @@ typedef struct Shader{
     char *fragmentFileName;
 }Shader;
 
-typedef struct Material{
+typedef struct material{
     vec3 diffuse;
     vec3 sepcular;
     float shininess;
-}Material;
+}material;
 
-typedef struct Light{
+typedef struct light{
     vec3 position;
     vec3 color;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-}Light;
-
-
-
-#define vec3_c(v, _x, _y, _z) v.x = _x; v.y = _y; v.z = _z
-//Default Material
-vec3_c(vec3 diffuseMaterial, 1.0f, 1.0f, 1.0f);
-vec3 specular; 
-float shininess = 1.0f;
-
-//Default Light
-
-
-Material defaultMaterial();
-Light defaultLight();
+}light;
 
 void initShader(Shader *shader);
 void useShader(Shader *shader);
@@ -52,7 +38,20 @@ void setFloat(Shader *shader, char *name, float value);
 void setVec2(Shader *shader, char *name, vec2 value);
 void setVec3(Shader *shader, char *name, vec3 value);
 void setMat4(Shader *shader, char *name, mat4 value);
-void setMaterial(Shader *shader, Material material);
-void setLight(Shader *shader, Light light);
+material defaultMaterial(void);
+light defaultLight(void);
+void setMaterial(Shader *shader, material material);
+void setLight(Shader *shader, light light);
+#define setMaterial(...)   vrg(setMaterial, __VA_ARGS__)
+#define setMaterial1(n)    setMaterialX(n, defaultMaterial())
+#define setMaterial2(n, m) setMaterialX(n, m)
+void setMaterialX(Shader *shader, material Material);
+#define setLight(...)   vrg(setLight, __VA_ARGS__)
+#define setLight1(n)    setLightX(n, defaultLight())
+#define setLight2(n, m) setLightX(n, m)
+void setLightX(Shader *shader, light Light);
+
+
+
 
 #endif

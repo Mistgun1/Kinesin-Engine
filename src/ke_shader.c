@@ -95,16 +95,29 @@ void setMat4(Shader *shader, char *name, mat4 value){
     glUniformMatrix4fv(glGetUniformLocation(shader->ID, name), 1, GL_FALSE, value.m);
 }
 
+material defaultMaterial(void){
+    vec3 diffuse =(vec3){1.0, 1.0, 1.0};
+    vec3 specular = (vec3){1.0, 1.0, 1.0}; 
+    float shininess = 1.0f;
+    material defaultMaterial = (material){diffuse,specular,shininess};
+    return defaultMaterial;
+}
 
-vec3 diffuse = vec3_create(1.0, 1.0, 1.0);
-vec3 sepcular = vec3_create(1.0, 1.0, 1.0);
-float shininess = 1.0;
+light defaultLight(void){
+    vec3 position = (vec3){0.0, 0.0, 0.0};
+    vec3 color = (vec3){1.0, 1.0, 1.0};
+    vec3 ambient = (vec3){0.1, 0.1, 0.1};
+    vec3 diffuse = (vec3){0.9, 0.9, 0.9};
+    vec3 specular = (vec3){0.9, 0.9, 0.9};
+    light defaultLight = (light){position, color, ambient, diffuse, specular};
+    return defaultLight;
+} 
 
 
-#define setMaterial(...)   vrg(setMaterial, __VA_ARGS__)
-#define setMaterial1(n)    setMaterialX(n, defaultMaterial)
-#define setMaterial2(n, m) setMaterialX(n, m)
+void setMaterialX(Shader *shader, material material){
 
-void setMaterialX(Shader *shader, Material material){
+}
+
+void setLightX(Shader *shader, light light){
 
 }
