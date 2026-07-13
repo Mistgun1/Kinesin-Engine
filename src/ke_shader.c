@@ -96,10 +96,11 @@ void setMat4(Shader *shader, char *name, mat4 value){
 }
 
 material defaultMaterial(void){
+    vec3 ambient =(vec3){0.1, 0.1, 0.1};
     vec3 diffuse =(vec3){1.0, 1.0, 1.0};
     vec3 specular = (vec3){1.0, 1.0, 1.0}; 
     float shininess = 1.0f;
-    material defaultMaterial = (material){diffuse,specular,shininess};
+    material defaultMaterial = (material){ambient, diffuse, specular, shininess};
     return defaultMaterial;
 }
 
@@ -115,9 +116,16 @@ light defaultLight(void){
 
 
 void setMaterialX(Shader *shader, material material){
-
+    setVec3(shader, "material.ambient", material.ambient);
+    setVec3(shader, "material.diffuse", material.diffuse);
+    setVec3(shader, "material.specular", material.specular);
+    setFloat(shader, "material.shininess", material.shininess);
 }
 
 void setLightX(Shader *shader, light light){
-
+    setVec3(shader, "light.position", light.position);
+    setVec3(shader, "light.color", light.color);
+    setVec3(shader, "light.ambient", light.ambient);
+    setVec3(shader, "light.diffuse", light.diffuse);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    setVec3(shader, "light.specular", light.specular);
 }

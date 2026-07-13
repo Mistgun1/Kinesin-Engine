@@ -85,19 +85,10 @@ int main(int argc, char *argv[]){
         vec4 lightPositionVec4 = vec3_to_vec4(lightPosition);
         lightPositionVec4 = mat4_mul_vec4(light_rotation, lightPositionVec4);
         lightPosition = vec4_to_vec3(lightPositionVec4);
-        setVec3(&shader, "light.position", lightPosition);
-        setVec3(&shader, "light.ambient", vec3_create(0.2f, 0.2f, 0.2f));
-        setVec3(&shader, "light.diffuse", vec3_create(0.5f, 0.5f, 0.5f));
-        setVec3(&shader, "light.specular", vec3_create(1.f, 1.f, 1.f));
-        setVec3(&shader, "light.color", vec3_create(1.f, 1.f, 1.f));
         
-        setMaterial(&shader,"Material");
-
-
-        setVec3(&shader, "material.ambient", vec3_create(0.7f, 0.7f, 0.7f));
-        setVec3(&shader, "material.diffuse", vec3_create(0.5f, 0.5f, 0.6f));
-        setVec3(&shader, "material.specular", vec3_create(0.5f, 0.5f, 0.5f));
-        setFloat(&shader, "material.shininess", 4.0f);
+        setMaterial(&shader);
+        setLight(&shader);
+        setVec3(&shader, "light.position", lightPosition);
 
         glBindVertexArray(earth->VAO);
         glDrawElements(GL_TRIANGLES, earth->index_count, GL_UNSIGNED_INT, 0);

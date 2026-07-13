@@ -6,6 +6,7 @@
 #include "ke_math.h"
 #include "se_gl.h"
 #include <stdbool.h>
+#include <stdarg.h>
 #include "ke_math.h"
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
@@ -17,8 +18,9 @@ typedef struct Shader{
 }Shader;
 
 typedef struct material{
+    vec3 ambient;
     vec3 diffuse;
-    vec3 sepcular;
+    vec3 specular;
     float shininess;
 }material;
 
