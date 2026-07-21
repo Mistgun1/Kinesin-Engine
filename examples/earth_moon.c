@@ -20,13 +20,15 @@ vec3 cameraPosition;
 vec3 cameraTarget;
 vec3 cameraUp;
 
+Camera camera;
+
 int main(int argc, char *argv[]){
    
     cameraPosition = vec3_create(0.0f, 0.0f, 0.0f);
     cameraTarget = vec3_create(0.0f, 0.0f, -1.0f);
     cameraUp = vec3_create(0.0f, 1.0f, 0.0f);
+    Camera camera = {cameraPosition, cameraTarget, cameraUp};
 
-    glfwInit();
     GLFWwindow* window = createWindow(1920, 1080, "earth moon");
     
     se_init_opengl();
@@ -64,7 +66,7 @@ int main(int argc, char *argv[]){
         scale_xyz(&model, .1f, .1f, 0.1f);
         rotate_xyz(&model, (float)glfwGetTime() * radians(45.0f), 0.0f, 1.0f, 0.0f);
         
-        mat4 view = mat4_look_at(cameraPosition, cameraTarget, cameraUp);
+        mat4 view = mat4_look_at(&camera);
    
         mat4 projection = mat4_perspective(45.0f, 1920.0f/1080.0f, 0.1f, 100.0f);
         //mat4 projection = mat4_orthographic(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);

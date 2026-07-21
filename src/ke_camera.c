@@ -1,7 +1,4 @@
 #include "ke_camera.h"
-#include "ke_math.h"
-#include <stdio.h>
-#include <math.h>
 
 mat4 mat4_perspective(float fov, float aspectRatio, float near, float far){
     mat4 perspective = mat4_identity();
@@ -34,20 +31,20 @@ mat4 mat4_orthographic(float left, float right, float bottom, float top, float n
     return orthographic;
 }
 
-mat4 mat4_look_at(vec3 position, vec3 target, vec3 up){
-    vec3 direction = vec3_normalize(vec3_sub(target, position));
-    vec3 right = vec3_normalize(vec3_cross(up, direction));
+mat4 mat4_look_at(Camera* camera){
+    vec3 direction = vec3_normalize(vec3_sub(camera->target, camera->position));
+    vec3 right = vec3_normalize(vec3_cross(camera->up, direction));
    
-    vec3 negative_position = vec3_negate(position);
+    vec3 negative_position = vec3_negate(camera->position);
     mat4 cameraPosition = mat4_translate(&negative_position);
 
     mat4 cameraRotation = mat4_identity();
     cameraRotation.m[0] = right.x;
     cameraRotation.m[1] = right.y;
     cameraRotation.m[2] = right.z;
-    cameraRotation.m[4] = up.x;
-    cameraRotation.m[5] = up.y;
-    cameraRotation.m[6] = up.z;
+    cameraRotation.m[4] = camera->up.x;
+    cameraRotation.m[5] = camera->up.y;
+    cameraRotation.m[6] = camera->up.z;
     cameraRotation.m[8] = direction.x;
     cameraRotation.m[9] = direction.y;
     cameraRotation.m[10] = direction.z;
@@ -55,3 +52,56 @@ mat4 mat4_look_at(vec3 position, vec3 target, vec3 up){
     return mat4_mul_mat4(cameraPosition, cameraRotation);
 }
 
+
+
+void ProcessMouseMovement(Camera camera, float xoffset, float yoffset, GLboolean constrainPitch )
+{
+ 
+        xoffset *= MouseSensitivity;
+        yoffset *= MouseSensitivity;
+
+        camera.yaw   += xoffset;
+        camera.pitch += yoffset;
+
+        // make sure that when pitch is out of bounds, screen doesn't get flipped
+        if (constrainPitch)
+        {
+            if (Pitch > 89.0f)
+                Pitch = 89.0f;
+            if (Pitch < -89.0f)
+                Pitch = -89.0f;
+        }
+
+        // update Front, Right and Up Vectors using the updated Euler angles
+        updateCameraVectors();
+    }
+
+void mouse_callback(GLFWwindow* window, Camera* camera,double xposin, double yposin){
+    float xpos = (float)xposin;
+    float ypos = (float)yposin;
+    
+    bool firstmouse = true;
+
+    float lastX = SCR_WIDTH / 2.0f;
+    float lastY = SCR_HEIGHT / 2.0f;
+    if (firstmouse)
+    {
+        lastx = xpos;
+        lasty = ypos;
+        firstmouse = false;
+    }
+
+    float xoffset = xpos - lastx;
+    float yoffset = lasty - ypos; // reversed since y-coordinates go from bottom to top
+
+    lastx = xpos;
+    lasty = ypos;
+
+    camera.processmousemovement(xoffset, yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow* window, Camera* camera, double xoffset, double yoffset){
+    camera.ProcessMouseScroll((float)yoffset);
+}
